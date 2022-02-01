@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import HomePage from './HomePage'
-import CancelReservationPage from './CancelReservationPage'
 import DateTimePicker from 'react-datetime-picker'
 import { format } from "date-fns"
 
-function ReservationPage({ email, reservationPage, setReservationPage, cancelReservationPage,
-    setCancelReservationPage, employee, setEmployee, rooms, setRoom, homePage, setHomePage, loggedInEmployeeID,
+function ReservationPage({ email, reservationPage, setReservationPage,
+    employee, setEmployee, rooms, setRoom, homePage, setHomePage, loggedInEmployeeID,
     startTime, setStartTime, formattedStartTime, setFormattedStartTime, endTime, setEndTime, formattedEndTime, setFormattedEndTime, reservations, setReservations }) {
 
     const [roomnumber, setRoomnumber] = useState()
@@ -21,11 +20,10 @@ function ReservationPage({ email, reservationPage, setReservationPage, cancelRes
         reservations.map((reservation) => {
             if (reservationID <= reservation.ReservationID) {
                 setReservationID(reservation.ReservationID + 1)
-                console.log(reservationID);
             }
             return reservationID
         })
-    }, [roomnumber, startTime, endTime])
+    }, [roomnumber, startTime, endTime, reservationID, reservations])
 
 
 
@@ -41,36 +39,69 @@ function ReservationPage({ email, reservationPage, setReservationPage, cancelRes
     useEffect(() => {
         setFormattedStartTime(format(startTime, 'yyyy-MM-dd kk:mm'))
         setFormattedEndTime(format(endTime, 'yyyy-MM-dd kk:mm'))
-    }, [startTime, endTime])
+    }, [startTime, endTime, setFormattedEndTime, setFormattedStartTime])
+
+
+
+
+
 
     const handleReservation = () => {
-        (async () => {
-            try {
-                await fetch('/addReservation', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json, text/plain, */*',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        reservationID: reservationID, employeeID: loggedInEmployeeID, roomnumber: roomnumber,
-                        startingDate: formattedStartTime, endingDate: formattedEndTime
+
+        let startCheck = true
+        let endCheck = true
+
+        reservations.map(reservation => {
+            let fetchedStartDate = new Date(reservation.Starting_Date)
+            let fetchedEndDate = new Date(reservation.Ending_Date)
+            if (reservation.Roomnumber === roomnumber &&
+                (fetchedEndDate.getTime() >= endTime.getTime() &&
+                    fetchedStartDate.getTime() <= endTime.getTime())) {
+                endCheck = false
+            }
+            if (reservation.Roomnumber === roomnumber &&
+                (fetchedStartDate.getTime() <= startTime.getTime() &&
+                    fetchedEndDate.getTime() >= startTime.getTime())) {
+                startCheck = false
+            }
+            return (endCheck, startCheck)
+        })
+        if (!endCheck) {
+            alert(`Room ${roomnumber} is not free on ${formattedEndTime}`)
+        }
+        else if (!startCheck) {
+            alert(`Room ${roomnumber} is not free on ${formattedStartTime}`)
+        }
+        else if (startCheck && endCheck) {
+            (async () => {
+                try {
+                    await fetch('/addReservation', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json, text/plain, */*',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            reservationID: reservationID, employeeID: loggedInEmployeeID, roomnumber: roomnumber,
+                            startingDate: formattedStartTime, endingDate: formattedEndTime
+                        })
                     })
-                })
-                    .then(await fetch('/reservations')
-                        .then(res => { return res.json() })
-                        .then(data => setReservations(data.recordset)))
-                    .then(alert(`Reservation of Room ${roomnumber} has been reserved successfully from ${formattedStartTime} untill ${formattedEndTime}.`))
-            }
-            catch (err) {
-                console.log(err);
-            }
-        })()
+                        .then(await fetch('/reservations')
+                            .then(res => { return res.json() })
+                            .then(data => setReservations(data.recordset)))
+                        .then(alert(`Reservation of Room ${roomnumber} has been reserved successfully from ${formattedStartTime} untill ${formattedEndTime}.`))
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            })()
+            setRoomnumber('')
+        }
     }
 
 
 
-    if (!homePage && !cancelReservationPage) {
+    if (!homePage) {
         return (
             <>
                 <nav>
@@ -82,33 +113,12 @@ function ReservationPage({ email, reservationPage, setReservationPage, cancelRes
                         }}>
                         HomePage
                     </button>
-                    <button className='btn'
-                        onClick={() => {
-                            setCancelReservationPage(true)
-                            setReservationPage(false)
-                        }}>
-                        Cancel Reservation
-                    </button>
                 </nav>
                 <div>
                     <label>Start</label>
                     <DateTimePicker minDate={new Date()} onChange={setStartTime} value={startTime} />
                     <label>End</label>
                     <DateTimePicker minDate={startTime} onChange={setEndTime} value={endTime} />
-                    <label> ROOM: {roomnumber}</label>
-                    <button onClick={() => {
-                        console.log('starttime ' + formattedStartTime)
-                        console.log('endtime ' + formattedEndTime)
-                        if (startTime.getTime() < endTime.getTime()) {
-                            console.log('biig');
-                        }
-                        if (startTime.getTime() === endTime.getTime()) {
-                            console.log('equality')
-                        }
-                    }}>
-                        click me aswell
-                    </button>
-                    <button onClick={() => { handleReservation() }} style={{ cursor: 'pointer' }} className='btn'>reserve Room!</button>
                     <span>
                         <table>
                             <thead>
@@ -124,6 +134,9 @@ function ReservationPage({ email, reservationPage, setReservationPage, cancelRes
                             </tbody>
                         </table>
                     </span>
+                    <label> ROOM: {roomnumber}</label>
+                    <br />
+                    <button onClick={() => { handleReservation() }} style={{ cursor: 'pointer' }} className='btn'>reserve Room!</button>
                 </div>
             </>
         )
@@ -133,13 +146,6 @@ function ReservationPage({ email, reservationPage, setReservationPage, cancelRes
             <>
                 <HomePage />
             </>)
-    }
-    if (!homePage && reservationPage) {
-        return (
-            <>
-                <CancelReservationPage />
-            </>
-        )
     }
 }
 

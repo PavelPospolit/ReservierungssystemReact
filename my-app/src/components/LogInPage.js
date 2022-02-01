@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import HomePage from './HomePage'
 
-const LogInPage = ({ logIn, setLogIn, email, setEmail, password, setPassword, users, setUsers, reservations, setReservations }) => {
+const LogInPage = ({ logIn, setLogIn, email, setEmail, password, setPassword, users, setUsers, reservations, setReservations, cancelReservationID, setCancelReservationID }) => {
     const [loggedIn, setLoggedIn] = useState(false)
     const [reservationPage, setReservationPage] = useState(false)
-    const [cancelReservationPage, setCancelReservationPage] = useState(false)
 
     const [rooms, setRoom] = useState([])
     const [loggedInEmployee, setLoggedInEmployee] = useState()
@@ -80,8 +79,6 @@ const LogInPage = ({ logIn, setLogIn, email, setEmail, password, setPassword, us
                     email={email}
                     reservationPage={reservationPage}
                     setReservationPage={setReservationPage}
-                    cancelReservationPage={cancelReservationPage}
-                    setCancelReservationPage={setCancelReservationPage}
                     rooms={rooms}
                     setRoom={setRoom}
                     users={users}
@@ -91,6 +88,8 @@ const LogInPage = ({ logIn, setLogIn, email, setEmail, password, setPassword, us
                     loggedInEmployeeID={loggedInEmployeeID}
                     reservations={reservations}
                     setReservations={setReservations}
+                    cancelReservationID={cancelReservationID}
+                    setCancelReservationID={setCancelReservationID}
                 />
             </>
         )

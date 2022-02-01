@@ -162,7 +162,7 @@ p {
   text-transform: capitalize;
   font-size: 1rem;
   letter-spacing: var(--spacing);
-  margin-top: 2rem;
+  margin-top: 0rem;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   cursor: pointer;
@@ -346,4 +346,7 @@ nav{
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;
+}
+.bth{
+  color: blue;
 }

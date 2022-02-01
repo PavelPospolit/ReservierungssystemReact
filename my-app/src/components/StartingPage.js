@@ -9,6 +9,7 @@ const StartingPage = ({ logIn, setLogIn }) => {
     const [addedUser, setaddedUser] = useState('')
     const [users, setUsers] = useState([])
     const [reservations, setReservations] = useState([])
+    const [cancelReservationID, setCancelReservationID] = useState()
 
 
 
@@ -22,6 +23,7 @@ const StartingPage = ({ logIn, setLogIn }) => {
             .then(res => { return res.json() })
             .then(data => setReservations(data.recordset))
     }, [])
+
 
 
     if (logIn) {
@@ -38,6 +40,8 @@ const StartingPage = ({ logIn, setLogIn }) => {
                     setUsers={setUsers}
                     reservations={reservations}
                     setReservations={setReservations}
+                    cancelReservationID={cancelReservationID}
+                    setCancelReservationID={setCancelReservationID}
                 />
             </>
         )
@@ -63,5 +67,4 @@ const StartingPage = ({ logIn, setLogIn }) => {
         )
     }
 }
-
 export default StartingPage
