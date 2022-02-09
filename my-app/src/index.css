@@ -148,3 +148,12 @@ td, th, tr{
 .react-calendar__navigation__label__labelText{
 	font-weight: bolder;
 }
+.react-calendar__tile--range{
+	background-color: rgb(224,0,116);
+}
+.react-calendar__tile--now{
+	background-color: aquamarine;
+}
+.react-calendar__month-view__days__day:disabled{
+	background-color: rgb(224,0,116, 15%);
+}
