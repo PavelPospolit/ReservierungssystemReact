@@ -1,7 +1,7 @@
 # ReservierungssystemReact
 
-npm install react-datetime-picker
+npm install react-datetime-picker --save
 
 npm install
 
-$ npm install express --save
+npm install express --save
