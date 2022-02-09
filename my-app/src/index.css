@@ -22,15 +22,15 @@ body {
    height: .8vw;
   }
 .email {
-		background: hsl(0deg 0% 100%);
-		box-shadow: 0 0 2em hsl(231deg 62% 94%);
-		padding: 1em;
-		display: flex;
-		flex-direction: column;
-		gap: 0.5em;
-		border-radius: 20px;
-		color: hsl(0deg 0% 30%);
-		margin-top: -3em;
+	background: hsl(0deg 0% 100%);
+	box-shadow: 0 0 2em hsl(231deg 62% 94%);
+	padding: 1em;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5em;
+	border-radius: 20px;
+	color: hsl(0deg 0% 30%);
+	margin-top: -3em;
   }
   .password {
 	background: hsl(0deg 0% 100%);
@@ -97,10 +97,6 @@ body {
 	  display: flex;
 	  justify-content: space-between;
   }
-  /* .endlabel{
-	  position: relative;
-	  right:6vw;
-  } */
   nav{
     border-bottom: 2px solid black;
 	display: flex;
