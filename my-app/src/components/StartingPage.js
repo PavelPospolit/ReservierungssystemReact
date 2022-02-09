@@ -9,7 +9,7 @@ const StartingPage = ({ logIn, setLogIn }) => {
     const [addedUser, setaddedUser] = useState('')
     const [users, setUsers] = useState([])
     const [reservations, setReservations] = useState([])
-    const [cancelReservationID, setCancelReservationID] = useState()
+    const [cancelReservationID, setCancelReservationID] = useState('')
 
 
 

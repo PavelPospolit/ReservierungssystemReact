@@ -37,36 +37,34 @@ const LogInPage = ({ logIn, setLogIn, email, setEmail, password, setPassword, us
                 <header id="header">
                     <h1>LOG IN</h1>
                 </header>
-                <nav id='navbar'>
-                    <button
-                        className="btn"
-                        id="change_page_btn"
-                        onClick={() => { setLogIn(false) }}
-                    >
-                        change to register page
-                    </button>
-                </nav>
                 <form onSubmit={() => { handleLogIn() }} className='form-control'>
                     <div>
-                        <label>Email</label>
                         <input
                             type="text"
                             id='email'
+                            className='email'
+                            placeholder='Email'
                             onChange={(event) => setEmail(event.target.value)}
                         />
-                        <label>Password</label>
                         <input
                             type="password"
                             id='password'
+                            className='password'
+                            placeholder='Password'
                             onChange={(event) => setPassword(event.target.value)}
                         />
+
+                    </div>
+                    <div className='buttons'>
+
                         <button
                             type="submit"
-                            className='btn'
+                            className='login'
                             onSubmit={() => { handleLogIn() }}
                         >
                             Log In
                         </button>
+                        <button className='signup' onClick={() => { setLogIn(false) }}>Sign up</button>
                     </div>
                 </form>
             </>
@@ -90,6 +88,8 @@ const LogInPage = ({ logIn, setLogIn, email, setEmail, password, setPassword, us
                     setReservations={setReservations}
                     cancelReservationID={cancelReservationID}
                     setCancelReservationID={setCancelReservationID}
+                    loggedIn={loggedIn}
+                    setLogIn={setLoggedIn}
                 />
             </>
         )

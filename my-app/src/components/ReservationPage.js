@@ -7,8 +7,7 @@ function ReservationPage({ email, reservationPage, setReservationPage,
     employee, setEmployee, rooms, setRoom, homePage, setHomePage, loggedInEmployeeID,
     startTime, setStartTime, formattedStartTime, setFormattedStartTime, endTime, setEndTime, formattedEndTime, setFormattedEndTime, reservations, setReservations }) {
 
-    const [roomnumber, setRoomnumber] = useState()
-    const [reservationID, setReservationID] = useState(0)
+    const [roomnumber, setRoomnumber] = useState('')
 
     useEffect(() => {
         fetch('/rooms')
@@ -16,24 +15,13 @@ function ReservationPage({ email, reservationPage, setReservationPage,
             .then(data => setRoom(data.recordset))
     }, [setRoom])
 
-    useEffect(() => {
-        reservations.map((reservation) => {
-            if (reservationID <= reservation.ReservationID) {
-                setReservationID(reservation.ReservationID + 1)
-            }
-            return reservationID
-        })
-    }, [roomnumber, startTime, endTime, reservationID, reservations])
-
-
-
 
     const roomlist = rooms.map((room) =>
-        <tr key={room.Roomnumber}>
-            <td onClick={() => { setRoomnumber(room.Roomnumber) }} style={{ cursor: 'pointer' }}>{room.Roomnumber}</td>
-            <td onClick={() => { setRoomnumber(room.Roomnumber) }} style={{ cursor: 'pointer' }}>{room.Roomdescritpion}</td>
-            <td onClick={() => { setRoomnumber(room.Roomnumber) }} style={{ cursor: 'pointer' }}>{room.Roomspecials}</td>
-            <td onClick={() => { setRoomnumber(room.Roomnumber) }} style={{ cursor: 'pointer' }}>{room.Roomcapacity}</td>
+        <tr key={room.Roomnumber} id={room.Roomnumber} onClick={() => { setRoomnumber(room.Roomnumber); let allElements = document.getElementsByClassName('selected'); for (let i = 0; i < allElements.length; i++) { allElements[i].classList.remove('selected'); }; document.getElementById(`${room.Roomnumber}`).classList.add('selected') }} style={{ cursor: 'pointer' }}>
+            <td>{room.Roomnumber}</td>
+            <td>{room.Roomdescritpion}</td>
+            <td>{room.Roomspecials}</td>
+            <td>{room.Roomcapacity}</td>
         </tr>
     )
     useEffect(() => {
@@ -51,51 +39,57 @@ function ReservationPage({ email, reservationPage, setReservationPage,
         let startCheck = true
         let endCheck = true
 
-        reservations.map(reservation => {
-            let fetchedStartDate = new Date(reservation.Starting_Date)
-            let fetchedEndDate = new Date(reservation.Ending_Date)
-            if (reservation.Roomnumber === roomnumber &&
-                (fetchedEndDate.getTime() >= endTime.getTime() &&
-                    fetchedStartDate.getTime() <= endTime.getTime())) {
-                endCheck = false
-            }
-            if (reservation.Roomnumber === roomnumber &&
-                (fetchedStartDate.getTime() <= startTime.getTime() &&
-                    fetchedEndDate.getTime() >= startTime.getTime())) {
-                startCheck = false
-            }
-            return (endCheck, startCheck)
-        })
-        if (!endCheck) {
-            alert(`Room ${roomnumber} is not free on ${formattedEndTime}`)
+        if (roomnumber === '') {
+            alert('please select a room!')
         }
-        else if (!startCheck) {
-            alert(`Room ${roomnumber} is not free on ${formattedStartTime}`)
-        }
-        else if (startCheck && endCheck) {
-            (async () => {
-                try {
-                    await fetch('/addReservation', {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json, text/plain, */*',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            reservationID: reservationID, employeeID: loggedInEmployeeID, roomnumber: roomnumber,
-                            startingDate: formattedStartTime, endingDate: formattedEndTime
+        else {
+            reservations.map(reservation => {
+                let fetchedStartDate = new Date(reservation.Starting_Date)
+                let fetchedEndDate = new Date(reservation.Ending_Date)
+                if (reservation.Roomnumber === roomnumber &&
+                    (fetchedEndDate.getTime() >= endTime.getTime() &&
+                        fetchedStartDate.getTime() <= endTime.getTime())) {
+                    endCheck = false
+                }
+                if (reservation.Roomnumber === roomnumber &&
+                    (fetchedStartDate.getTime() <= startTime.getTime() &&
+                        fetchedEndDate.getTime() >= startTime.getTime())) {
+                    startCheck = false
+                }
+                return (endCheck, startCheck)
+            })
+            if (!endCheck) {
+                alert(`Room ${roomnumber} is not free on ${formattedEndTime}`)
+            }
+            else if (!startCheck) {
+                alert(`Room ${roomnumber} is not free on ${formattedStartTime}`)
+            }
+            else if (startCheck && endCheck) {
+                (async () => {
+                    try {
+                        await fetch('/addReservation', {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json, text/plain, */*',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                employeeID: loggedInEmployeeID, roomnumber: roomnumber,
+                                startingDate: formattedStartTime, endingDate: formattedEndTime
+                            })
                         })
-                    })
-                        .then(await fetch('/reservations')
-                            .then(res => { return res.json() })
-                            .then(data => setReservations(data.recordset)))
-                        .then(alert(`Reservation of Room ${roomnumber} has been reserved successfully from ${formattedStartTime} untill ${formattedEndTime}.`))
-                }
-                catch (err) {
-                    console.log(err);
-                }
-            })()
-            setRoomnumber('')
+                            .then(await fetch('/reservations')
+                                .then(res => { return res.json() })
+                                .then(data => setReservations(data.recordset)))
+                            .then(alert(`Reservation of Room ${roomnumber} has been reserved successfully from ${formattedStartTime} untill ${formattedEndTime}.`))
+
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
+                })()
+
+            }
         }
     }
 
@@ -104,9 +98,9 @@ function ReservationPage({ email, reservationPage, setReservationPage,
     if (!homePage) {
         return (
             <>
+                <h1>Reservation page</h1>
                 <nav>
-                    <h1>reservation Page</h1>
-                    <button className='btn'
+                    <button className='changeview'
                         onClick={() => {
                             setHomePage(true)
                             setReservationPage(false)
@@ -114,11 +108,15 @@ function ReservationPage({ email, reservationPage, setReservationPage,
                         HomePage
                     </button>
                 </nav>
+                <div className='datetimepickerlabels'>
+                    <label>Start:...........................</label>
+                    <label className='endlabel'>End:.............................</label>
+                </div>
+                <div className='datetimepickerdiv'>
+                    <DateTimePicker clearIcon={null} className='datetimepicker' minDate={new Date()} onChange={setStartTime} value={startTime} />
+                    <DateTimePicker clearIcon={null} className='datetimepicker' minDate={startTime} onChange={setEndTime} value={endTime} />
+                </div>
                 <div>
-                    <label>Start</label>
-                    <DateTimePicker minDate={new Date()} onChange={setStartTime} value={startTime} />
-                    <label>End</label>
-                    <DateTimePicker minDate={startTime} onChange={setEndTime} value={endTime} />
                     <span>
                         <table>
                             <thead>
@@ -134,9 +132,8 @@ function ReservationPage({ email, reservationPage, setReservationPage,
                             </tbody>
                         </table>
                     </span>
-                    <label> ROOM: {roomnumber}</label>
                     <br />
-                    <button onClick={() => { handleReservation() }} style={{ cursor: 'pointer' }} className='btn'>reserve Room!</button>
+                    <button onClick={() => { handleReservation() }} style={{ cursor: 'pointer' }} className='signup'>Reserve room!</button>
                 </div>
             </>
         )

@@ -9,7 +9,8 @@ router.post('/', async function (req, res) {
     try {
         let pool = await sql.connect(config)
         let addedUser = pool.request().query(`INSERT INTO [Reservierungssystem].[dbo].[Employees]
-        VALUES ('${req.body.employeeID}', '${req.body.email}', '${req.body.password}')`)
+        (Emailaddress, Employee_Password)
+        VALUES ('${req.body.email}', '${req.body.password}')`)
     }
     catch (err) {
         console.log(err);

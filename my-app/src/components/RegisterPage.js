@@ -1,21 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
-const RegisterPage = ({ logIn, setLogIn, email, setEmail, password, setPassword, repeatPassword, setRepeatPassword,
-    users, setUsers, addedUser, setaddedUser }) => {
+const RegisterPage = ({ setLogIn, email, setEmail, password, setPassword, repeatPassword, setRepeatPassword,
+    users, setUsers }) => {
     let doubledEmail = false
-    const [employeeID, setEmployeeID] = useState(0)
     const [passwordError, setPasswordError] = useState()
     const [emailError, setEmailError] = useState()
-
-    useEffect(() => {
-        users.map(employee => {
-            if (employeeID <= employee.EmployeeID) {
-                setEmployeeID(employee.EmployeeID + 1)
-            }
-            return employeeID
-        })
-    }, [employeeID, users])
-
 
 
     const handleRegister = (evt) => {
@@ -44,11 +33,12 @@ const RegisterPage = ({ logIn, setLogIn, email, setEmail, password, setPassword,
                             'Accept': 'application/json, text/plain, */*',
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ employeeID: employeeID, email: email, password: password })
+                        body: JSON.stringify({ email: email, password: password })
                     })
                         .then(await fetch('/users')
                             .then(res => { return res.json() })
                             .then(data => setUsers(data.recordset)))
+                        .then(alert('Registration successful!'))
                 }
                 catch (err) {
                     console.log(err);
@@ -69,54 +59,52 @@ const RegisterPage = ({ logIn, setLogIn, email, setEmail, password, setPassword,
             <header>
                 <h1>REGISTER</h1>
             </header>
-            <nav>
-                <button
-                    onClick={() => { setLogIn(true) }}
-                    className='btn'
-                >
-                    change to logIn page
-                </button>
-            </nav>
             <form onSubmit={() => { handleRegister() }} className='form-control'>
-                <div >
-                    <label>Email</label>
+                <div className='container'>
                     <input
                         type="text"
                         id="email"
                         name='email'
+                        className='email'
+                        placeholder='Email'
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
 
                     />
                     <label className='errorLabel'>{emailError}</label>
-                    <label>Password</label>
                     <input
                         type="password"
                         id='password'
                         name='password'
+                        className='password'
+                        placeholder='Password'
                         value={password}
                         onChange={(event) => {
                             setPassword(event.target.value)
                         }}
                     />
                     <label className='errorLabel'>{passwordError}</label>
-                    <br />
-                    <label>Repeat Password</label>
                     <input
                         type="password"
                         id='repeat_password'
+                        className='password'
+                        placeholder='Repeat Password'
                         value={repeatPassword}
                         onChange={(event) => setRepeatPassword(event.target.value)}
                         onSubmit={() => { handleRegister() }}
                     />
+
+                </div>
+                <div className='buttons'>
                     <button
                         type="button"
-                        className='btn'
+                        className='login'
                         onClick={() => { handleRegister() }}
                         value="Submit"
                     >
-                        REGISTER
+                        Register
                     </button>
+                    <button className='signup' onClick={() => { setLogIn(true) }}>Sign in</button>
                 </div>
             </form>
         </>

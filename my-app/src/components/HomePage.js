@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReservationPage from './ReservationPage'
 
 function HomePage({ email, reservationPage, setReservationPage,
-    employee, setEmployee, rooms, setRoom, users, setUsers, loggedInEmployee, setLoggedInEmployee, loggedInEmployeeID, reservations, setReservations,
+    employee, setEmployee, rooms, setRoom, loggedInEmployee, loggedInEmployeeID, reservations, setReservations,
     cancelReservationID, setCancelReservationID }) {
     const [homePage, setHomePage] = useState(false)
 
@@ -12,60 +12,75 @@ function HomePage({ email, reservationPage, setReservationPage,
     const [formattedStartTime, setFormattedStartTime] = useState()
     const [endTime, setEndTime] = useState(new Date())
     const [formattedEndTime, setFormattedEndTime] = useState()
+    const [emptyState, setEmptyState] = useState()
+
+    useEffect(() => {
+        fetch('/reservations')
+            .then(res => { return res.json() })
+            .then(data => setReservations(data.recordset))
+    }, [emptyState, setEmptyState])
+
 
     const reservationlist = reservations.map((reservation) => {
         let liste
         if (loggedInEmployeeID.toString() === reservation.EmployeeID.toString()) {
-            liste = (<tr key={reservation.ReservationID}>
-                <td onClick={() => { setCancelReservationID(reservation.ReservationID) }} style={{ cursor: 'pointer' }}>{reservation.ReservationID}</td>
-                <td onClick={() => { setCancelReservationID(reservation.ReservationID) }} style={{ cursor: 'pointer' }}>{reservation.Roomnumber}</td>
-                <td onClick={() => { setCancelReservationID(reservation.ReservationID) }} style={{ cursor: 'pointer' }}>{reservation.Starting_Date}</td>
-                <td onClick={() => { setCancelReservationID(reservation.ReservationID) }} style={{ cursor: 'pointer' }}>{reservation.Ending_Date}</td>
+            liste = (<tr key={reservation.ReservationID} id={reservation.ReservationID} onClick={() => { setCancelReservationID(reservation.ReservationID); let allElements = document.getElementsByClassName('selected'); for (let i = 0; i < allElements.length; i++) { allElements[i].classList.remove('selected'); }; document.getElementById(`${reservation.ReservationID}`).classList.add('selected') }} style={{ cursor: 'pointer' }}>
+                <td>{reservation.ReservationID}</td>
+                <td>{reservation.Roomnumber}</td>
+                <td>{reservation.Starting_Date}</td>
+                <td>{reservation.Ending_Date}</td>
             </tr>)
         }
         return liste
     })
 
     const handleCancel = () => {
-        (async () => {
-            try {
-                await fetch('/cancelReservation', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json, text/plain, */*',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        ReservationID: cancelReservationID
+        if (cancelReservationID === '') {
+            alert('Please select a reservation to cancel')
+        }
+        else {
+            (async () => {
+                try {
+                    await fetch('/cancelReservation', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json, text/plain, */*',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            ReservationID: cancelReservationID
+                        })
                     })
-                })
-                    .then(await fetch('/reservations')
-                        .then(res => { return res.json() })
-                        .then(data => setReservations(data.recordset)))
-                    .then(alert(`Reservation ${cancelReservationID} has been cacnelled successfully.`))
-            }
-            catch (err) {
-                console.log(err);
-            }
-        })()
-        setCancelReservationID('')
+                        .then(await fetch('/reservations')
+                            .then(res => { return res.json() })
+                            .then(data => setReservations(data.recordset)))
+                        .then(alert(`Reservation ${cancelReservationID} has been cacnelled successfully.`))
+                        .then(setEmptyState({}))
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            })()
+            setCancelReservationID('')
+        }
     }
 
 
     if (!reservationPage) {
         return (
             <>
+                <h1>LOGGED IN as {`${userName}`}</h1>
                 <nav>
-                    <h1>LOGGED IN as {`${userName}`}</h1>
-                    <button className='btn'
+                    <button className='changeview'
                         onClick={() => {
                             setHomePage(false)
                             setReservationPage(true)
                         }} >
                         reserve a room
                     </button>
+                    <button className='logout' onClick={() => { window.location.reload(false) }}>log out</button>
                 </nav>
-                <div>
+                <div className='reservations'>
                     <h2>Your reservations:</h2>
                     <span>
                         <table>
@@ -82,9 +97,8 @@ function HomePage({ email, reservationPage, setReservationPage,
                             </tbody>
                         </table>
                     </span>
-                    <label>selected reservation: {cancelReservationID}</label>
                     <br />
-                    <button className='btn' onClick={() => { handleCancel() }}>cancel selected reservation</button>
+                    <button className='signup' onClick={() => { handleCancel() }}>cancel selected reservation</button>
                 </div>
             </>
         )
