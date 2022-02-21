@@ -59,10 +59,10 @@ function ReservationPage({ email, reservationPage, setReservationPage,
                 return (endCheck, startCheck)
             })
             if (!endCheck) {
-                alert(`Room ${roomnumber} is not free on ${formattedEndTime}`)
+                alert(`Room ${roomnumber} is not free on ${formattedEndTime}! Check availability in the Homepage tab.`)
             }
             else if (!startCheck) {
-                alert(`Room ${roomnumber} is not free on ${formattedStartTime}`)
+                alert(`Room ${roomnumber} is not free on ${formattedStartTime}! Check availability in the Homepage tab.`)
             }
             else if (startCheck && endCheck) {
                 (async () => {
@@ -109,12 +109,12 @@ function ReservationPage({ email, reservationPage, setReservationPage,
                     </button>
                 </nav>
                 <div className='datetimepickerlabels'>
-                    <label>Start:...........................</label>
-                    <label className='endlabel'>End:.............................</label>
+                    <label>Start:</label>
+                    <label className='endlabel'>End:</label>
                 </div>
                 <div className='datetimepickerdiv'>
-                    <DateTimePicker clearIcon={null} className='datetimepicker' minDate={new Date()} onChange={setStartTime} value={startTime} />
-                    <DateTimePicker clearIcon={null} className='datetimepicker' minDate={startTime} onChange={setEndTime} value={endTime} />
+                    <DateTimePicker clearIcon={null} calendarIcon={null} className='datetimepicker' minDate={new Date()} onChange={setStartTime} value={startTime} />
+                    <DateTimePicker clearIcon={null} calendarIcon={null} className='datetimepicker' minDate={startTime} onChange={setEndTime} value={endTime} />
                 </div>
                 <div>
                     <span>

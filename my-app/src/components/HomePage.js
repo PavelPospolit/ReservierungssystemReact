@@ -24,13 +24,27 @@ function HomePage({ email, reservationPage, setReservationPage,
     const reservationlist = reservations.map((reservation) => {
         let liste
         if (loggedInEmployeeID.toString() === reservation.EmployeeID.toString()) {
-            liste = (<tr key={reservation.ReservationID} id={reservation.ReservationID} onClick={() => { setCancelReservationID(reservation.ReservationID); let allElements = document.getElementsByClassName('selected'); for (let i = 0; i < allElements.length; i++) { allElements[i].classList.remove('selected'); }; document.getElementById(`${reservation.ReservationID}`).classList.add('selected') }} style={{ cursor: 'pointer' }}>
+            liste = (
+                <tr key={reservation.ReservationID} id={reservation.ReservationID} onClick={() => { setCancelReservationID(reservation.ReservationID); let allElements = document.getElementsByClassName('selected'); for (let i = 0; i < allElements.length; i++) { allElements[i].classList.remove('selected'); }; document.getElementById(`${reservation.ReservationID}`).classList.add('selected') }} style={{ cursor: 'pointer' }}>
+                    <td>{reservation.ReservationID}</td>
+                    <td>{reservation.Roomnumber}</td>
+                    <td>{reservation.Starting_Date}</td>
+                    <td>{reservation.Ending_Date}</td>
+                </tr>
+            )
+        }
+        return liste
+    })
+    const reservationlistAll = reservations.map((reservation) => {
+        let liste
+        liste = (
+            <tr key={reservation.ReservationID}>
                 <td>{reservation.ReservationID}</td>
                 <td>{reservation.Roomnumber}</td>
                 <td>{reservation.Starting_Date}</td>
                 <td>{reservation.Ending_Date}</td>
-            </tr>)
-        }
+            </tr>
+        )
         return liste
     })
 
@@ -69,7 +83,10 @@ function HomePage({ email, reservationPage, setReservationPage,
     if (!reservationPage) {
         return (
             <>
-                <h1>LOGGED IN as {`${userName}`}</h1>
+                <div className='homepageheadlinediv'>
+                    <h1>Homepage</h1>
+                    <h2>Lgged in user: {`${userName}`}</h2>
+                </div>
                 <nav>
                     <button className='changeview'
                         onClick={() => {
@@ -80,16 +97,35 @@ function HomePage({ email, reservationPage, setReservationPage,
                     </button>
                     <button className='logout' onClick={() => { window.location.reload(false) }}>log out</button>
                 </nav>
+                <div>
+                    <h2>All reservations:</h2>
+                    <span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Reservation ID</th>
+                                    <th>Room number</th>
+                                    <th>Start</th>
+                                    <th>End</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {reservationlistAll}
+                            </tbody>
+                        </table>
+                        <br />
+                    </span>
+                </div>
                 <div className='reservations'>
                     <h2>Your reservations:</h2>
                     <span>
                         <table>
                             <thead>
                                 <tr>
-                                    <th>ReservationID</th>
+                                    <th>Reservation ID</th>
                                     <th>Room number</th>
-                                    <th>starting date</th>
-                                    <th>ending date</th>
+                                    <th>Start</th>
+                                    <th>End</th>
                                 </tr>
                             </thead>
                             <tbody>

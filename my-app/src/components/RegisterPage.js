@@ -56,11 +56,11 @@ const RegisterPage = ({ setLogIn, email, setEmail, password, setPassword, repeat
     }
     return (
         <>
-            <header>
+            <header id="header">
                 <h1>REGISTER</h1>
             </header>
             <form onSubmit={() => { handleRegister() }} className='form-control'>
-                <div className='container'>
+                <div className='registercontrol'>
                     <input
                         type="text"
                         id="email"
@@ -93,18 +93,17 @@ const RegisterPage = ({ setLogIn, email, setEmail, password, setPassword, repeat
                         onChange={(event) => setRepeatPassword(event.target.value)}
                         onSubmit={() => { handleRegister() }}
                     />
-
-                </div>
-                <div className='buttons'>
-                    <button
-                        type="button"
-                        className='login'
-                        onClick={() => { handleRegister() }}
-                        value="Submit"
-                    >
-                        Register
-                    </button>
-                    <button className='signup' onClick={() => { setLogIn(true) }}>Sign in</button>
+                    <div className='buttons'>
+                        <button
+                            type="button"
+                            className='login'
+                            onClick={() => { handleRegister() }}
+                            value="Submit"
+                        >
+                            Register
+                        </button>
+                        <button className='signup' onClick={() => { setLogIn(true) }}>Sign in</button>
+                    </div>
                 </div>
             </form>
         </>

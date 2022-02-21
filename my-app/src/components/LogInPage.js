@@ -42,7 +42,7 @@ const LogInPage = ({ logIn, setLogIn, email, setEmail, password, setPassword, us
                         <input
                             type="text"
                             id='email'
-                            className='email'
+                            className='emaillogin'
                             placeholder='Email'
                             onChange={(event) => setEmail(event.target.value)}
                         />
@@ -56,7 +56,6 @@ const LogInPage = ({ logIn, setLogIn, email, setEmail, password, setPassword, us
 
                     </div>
                     <div className='buttons'>
-
                         <button
                             type="submit"
                             className='login'
