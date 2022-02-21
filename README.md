@@ -18,5 +18,5 @@
 <br />
 
 ## to start:
-1. **node bin/www** in react-backend (cd .\react-backend\)
-2. **npm start**  in my-app (cd .\my-app\)
+1. **node bin/www** in react-backend (cd .\react-backend\) to start backend
+2. **npm start**  in my-app (cd .\my-app\) to react webapp
