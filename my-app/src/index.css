@@ -191,3 +191,31 @@ form{
 .react-calendar__month-view__days__day:disabled{
 	background-color: rgb(224,0,116, 15%);
 }
+
+
+
+
+/************************************FILTER*********************************************************/
+.filterdiv{
+	display: flex;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	justify-content: center;
+}
+.filterInput{
+	background: hsl(0deg 0% 100%);
+	box-shadow: 0 0 2em hsl(231deg 62% 94%);
+	display: flex;
+	flex-direction: column;
+	border-radius: 5px;
+	color: hsl(0deg 0% 30%);
+	height: 2rem;
+	margin-left: 1vw;
+	width: 63.5vw;
+}
+/*********************DROPDOWN MENU************************/
+
+.css-1s2u09g-control,
+.css-b62m3t-container{
+	width: 10vw;
+}
