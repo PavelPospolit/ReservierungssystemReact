@@ -7,12 +7,12 @@ import 'react-dropdown/style.css'
 
 function ReservationPage({ email, reservationPage, setReservationPage,
     employee, setEmployee, rooms, setRoom, homePage, setHomePage, loggedInEmployeeID,
-    startTime, setStartTime, formattedStartTime, setFormattedStartTime, endTime, setEndTime, formattedEndTime, setFormattedEndTime, reservations, setReservations }) {
+    startTime, setStartTime, formattedStartTime, setFormattedStartTime, endTime, setEndTime, formattedEndTime,
+    setFormattedEndTime, reservations, setReservations }) {
 
     const [roomnumber, setRoomnumber] = useState('')
     const [filterOption, setFilterOption] = useState('')
     const [filter, setFilter] = useState('')
-    const [filteredList, setfilteredList] = useState()
 
     useEffect(() => {
         fetch('/rooms')
@@ -23,14 +23,24 @@ function ReservationPage({ email, reservationPage, setReservationPage,
 
     let roomlist = rooms.map((room) => {
         const liste = (
-            <tr key={room.Roomnumber} id={room.Roomnumber} onClick={() => { setRoomnumber(room.Roomnumber); let allElements = document.getElementsByClassName('selected'); for (let i = 0; i < allElements.length; i++) { allElements[i].classList.remove('selected'); }; document.getElementById(`${room.Roomnumber}`).classList.add('selected') }} style={{ cursor: 'pointer' }}>
+            <tr key={room.Roomnumber} id={room.Roomnumber}
+                onClick={() => { setRoomnumber(room.Roomnumber); let allElements = document.getElementsByClassName('selected'); for (let i = 0; i < allElements.length; i++) { allElements[i].classList.remove('selected'); }; document.getElementById(`${room.Roomnumber}`).classList.add('selected') }}
+                onMouseOver={() => { let allElements = document.getElementsByClassName('hovered'); for (let i = 0; i < allElements.length; i++) { allElements[i].classList.remove('hovered'); }; document.getElementById(`${room.Roomnumber}`).classList.add('hovered') }}
+                onMouseOut={() => { let allElements = document.getElementsByClassName('hovered'); for (let i = 0; i < allElements.length; i++) { allElements[i].classList.remove('hovered'); } }}
+                style={{ cursor: 'pointer' }}>
                 <td>{room.Roomnumber}</td>
                 <td>{room.Roomdescritpion}</td>
                 <td>{room.Roomspecials}</td>
                 <td>{room.Roomcapacity}</td>
             </tr>
         )
-        if (room.Roomspecials.toString().toLocaleLowerCase().includes(filter.toLocaleLowerCase()) && filterOption === 'Properties') {
+        if (((room.Roomspecials.toLocaleLowerCase().includes(filter.toLocaleLowerCase()) ||
+            room.Roomdescritpion.toLocaleLowerCase().includes(filter.toLocaleLowerCase()) ||
+            String(room.Roomnumber).toLocaleLowerCase().includes(filter.toLocaleLowerCase()))) &&
+            (filterOption === 'Everything' || filterOption === '')) {
+            return liste
+        }
+        else if (room.Roomspecials.toLocaleLowerCase().includes(filter.toLocaleLowerCase()) && filterOption === 'Properties') {
             return liste
         }
         else if (room.Roomdescritpion.toLocaleLowerCase().includes(filter.toLocaleLowerCase()) && filterOption === 'Description') {
@@ -39,7 +49,7 @@ function ReservationPage({ email, reservationPage, setReservationPage,
         else if (String(room.Roomnumber).toLocaleLowerCase().includes(filter.toLocaleLowerCase()) && filterOption === 'Roomnumber') {
             return liste
         }
-        else if (filterOption === '' || filter === '') {
+        else if (filter === '') {
             return liste
         }
     }
@@ -51,6 +61,7 @@ function ReservationPage({ email, reservationPage, setReservationPage,
 
 
     const options = [
+        { value: 'Everything', label: 'Everything' },
         { value: 'Roomnumber', label: 'Roomnumber' },
         { value: 'Description', label: 'Description' },
         { value: 'Properties', label: 'Properties' },
@@ -129,13 +140,15 @@ function ReservationPage({ email, reservationPage, setReservationPage,
                         onClick={() => {
                             setHomePage(true)
                             setReservationPage(false)
+                            setFilter('')
+                            setFilterOption('')
                         }}>
                         HomePage
                     </button>
                 </nav>
                 <div className='filterdiv'>
                     <Select options={options} onChange={(values) => setFilterOption(values.value)} />
-                    <input type="text" placeholder='Enter filter here!' className='filterInput' onChange={(e) => { setFilter(e.target.value) }} />
+                    <input type="text" placeholder='Search for something. Select DropDown property to specify your search!' className='filterInput' onChange={(e) => { setFilter(e.target.value) }} />
                 </div>
                 <div className='datetimepickerlabels'>
                     <label>Start:</label>

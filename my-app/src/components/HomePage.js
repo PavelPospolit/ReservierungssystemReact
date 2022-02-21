@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ReservationPage from './ReservationPage'
+import Select from 'react-select'
 
 function HomePage({ email, reservationPage, setReservationPage,
     employee, setEmployee, rooms, setRoom, loggedInEmployee, loggedInEmployeeID, reservations, setReservations,
@@ -13,6 +14,10 @@ function HomePage({ email, reservationPage, setReservationPage,
     const [endTime, setEndTime] = useState(new Date())
     const [formattedEndTime, setFormattedEndTime] = useState()
     const [emptyState, setEmptyState] = useState()
+    const [filterOption, setFilterOption] = useState('')
+    const [filterOptionAllRes, setFilterOptionAllRes] = useState('')
+    const [filter, setFilter] = useState('')
+    const [allResFilter, setAllResFilter] = useState('')
 
     useEffect(() => {
         fetch('/reservations')
@@ -21,19 +26,54 @@ function HomePage({ email, reservationPage, setReservationPage,
     }, [emptyState, setEmptyState])
 
 
+
+    const options = [
+        { value: 'Everything', label: 'Everything' },
+        { value: 'ID', label: 'ID' },
+        { value: 'Roomnumber', label: 'Roomnumber' },
+        { value: 'Start', label: 'Start' },
+        { value: 'End', label: 'End' },
+    ]
+
+
     const reservationlist = reservations.map((reservation) => {
         let liste
         if (loggedInEmployeeID.toString() === reservation.EmployeeID.toString()) {
             liste = (
-                <tr key={reservation.ReservationID} id={reservation.ReservationID} onClick={() => { setCancelReservationID(reservation.ReservationID); let allElements = document.getElementsByClassName('selected'); for (let i = 0; i < allElements.length; i++) { allElements[i].classList.remove('selected'); }; document.getElementById(`${reservation.ReservationID}`).classList.add('selected') }} style={{ cursor: 'pointer' }}>
+                <tr key={reservation.ReservationID} id={reservation.ReservationID}
+                    onClick={() => { setCancelReservationID(reservation.ReservationID); let allElements = document.getElementsByClassName('selected'); for (let i = 0; i < allElements.length; i++) { allElements[i].classList.remove('selected'); }; document.getElementById(`${reservation.ReservationID}`).classList.add('selected') }}
+                    onMouseOver={() => { let allElements = document.getElementsByClassName('hovered'); for (let i = 0; i < allElements.length; i++) { allElements[i].classList.remove('hovered'); }; document.getElementById(`${reservation.ReservationID}`).classList.add('hovered') }}
+                    onMouseOut={() => { let allElements = document.getElementsByClassName('hovered'); for (let i = 0; i < allElements.length; i++) { allElements[i].classList.remove('hovered'); } }}
+                    style={{ cursor: 'pointer' }}>
                     <td>{reservation.ReservationID}</td>
                     <td>{reservation.Roomnumber}</td>
                     <td>{reservation.Starting_Date}</td>
                     <td>{reservation.Ending_Date}</td>
                 </tr>
             )
+            if (((String(reservation.Roomnumber).toLocaleLowerCase().includes(filter.toLocaleLowerCase())) ||
+                (String(reservation.ReservationID).toLocaleLowerCase().includes(filter.toLocaleLowerCase())) ||
+                (String(reservation.Starting_Date).toLocaleLowerCase().includes(filter.toLocaleLowerCase())) ||
+                (String(reservation.Ending_Date).toLocaleLowerCase().includes(filter.toLocaleLowerCase()))) &&
+                (filterOption == '' || filterOption == 'Everything')) {
+                return liste
+            }
+            else if ((String(reservation.ReservationID).toLocaleLowerCase().includes(filter.toLocaleLowerCase())) && filterOption === 'ID') {
+                return liste
+            }
+            else if ((String(reservation.Roomnumber).toLocaleLowerCase().includes(filter.toLocaleLowerCase())) && filterOption === 'Roomnumber') {
+                return liste
+            }
+            else if ((String(reservation.Starting_Date).toLocaleLowerCase().includes(filter.toLocaleLowerCase())) && filterOption === 'Start') {
+                return liste
+            }
+            else if ((String(reservation.Ending_Date).toLocaleLowerCase().includes(filter.toLocaleLowerCase())) && filterOption === 'End') {
+                return liste
+            }
+            else if (filter === '') {
+                return liste
+            }
         }
-        return liste
     })
     const reservationlistAll = reservations.map((reservation) => {
         let liste
@@ -45,7 +85,28 @@ function HomePage({ email, reservationPage, setReservationPage,
                 <td>{reservation.Ending_Date}</td>
             </tr>
         )
-        return liste
+        if (((String(reservation.Roomnumber).toLocaleLowerCase().includes(allResFilter.toLocaleLowerCase())) ||
+            (String(reservation.ReservationID).toLocaleLowerCase().includes(allResFilter.toLocaleLowerCase())) ||
+            (String(reservation.Starting_Date).toLocaleLowerCase().includes(allResFilter.toLocaleLowerCase())) ||
+            (String(reservation.Ending_Date).toLocaleLowerCase().includes(allResFilter.toLocaleLowerCase()))) &&
+            (filterOption == '' || filterOption == 'Everything')) {
+            return liste
+        }
+        else if ((String(reservation.ReservationID).toLocaleLowerCase().includes(allResFilter.toLocaleLowerCase())) && filterOptionAllRes === 'ID') {
+            return liste
+        }
+        else if ((String(reservation.Roomnumber).toLocaleLowerCase().includes(allResFilter.toLocaleLowerCase())) && filterOptionAllRes === 'Roomnumber') {
+            return liste
+        }
+        else if ((String(reservation.Starting_Date).toLocaleLowerCase().includes(allResFilter.toLocaleLowerCase())) && filterOptionAllRes === 'Start') {
+            return liste
+        }
+        else if ((String(reservation.Ending_Date).toLocaleLowerCase().includes(allResFilter.toLocaleLowerCase())) && filterOptionAllRes === 'End') {
+            return liste
+        }
+        else if (allResFilter === '') {
+            return liste
+        }
     })
 
     const handleCancel = () => {
@@ -92,13 +153,22 @@ function HomePage({ email, reservationPage, setReservationPage,
                         onClick={() => {
                             setHomePage(false)
                             setReservationPage(true)
+                            setFilter('')
+                            setFilterOption('')
+                            setAllResFilter('')
+                            setFilterOptionAllRes('')
                         }} >
                         reserve a room
                     </button>
                     <button className='logout' onClick={() => { window.location.reload(false) }}>log out</button>
                 </nav>
+
                 <div>
                     <h2>All reservations:</h2>
+                    <div className='filterdiv'>
+                        <Select options={options} onChange={(values) => setFilterOptionAllRes(values.value)} />
+                        <input type="text" placeholder='Search through all reservations!' className='filterInputHomePage' onChange={(e) => { setAllResFilter(e.target.value) }} />
+                    </div>
                     <span>
                         <table>
                             <thead>
@@ -116,8 +186,13 @@ function HomePage({ email, reservationPage, setReservationPage,
                         <br />
                     </span>
                 </div>
+
                 <div className='reservations'>
                     <h2>Your reservations:</h2>
+                    <div className='filterdiv'>
+                        <Select options={options} onChange={(values) => setFilterOption(values.value)} />
+                        <input type="text" placeholder='Search through your reservations!' className='filterInputHomePage' onChange={(e) => { setFilter(e.target.value) }} />
+                    </div>
                     <span>
                         <table>
                             <thead>
