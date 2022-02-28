@@ -14,6 +14,7 @@
 ## in react-backend (cd .\react-backend\):
 
 - npm install express --save
+- npm install mssql
 <br />
 <br />
 
