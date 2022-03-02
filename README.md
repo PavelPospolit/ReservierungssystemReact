@@ -7,6 +7,11 @@
 - npm install react-datetime-picker --save
 
 - npm i --save react-select
+ 
+- npm i react-router
+ 
+- npm i react-router-dom
+
 <br />
 <br />
 
@@ -14,7 +19,11 @@
 ## in react-backend (cd .\react-backend\):
 
 - npm install express --save
+
 - npm install mssql
+
+- npm i bcryptjs
+
 <br />
 <br />
 
