@@ -9,7 +9,6 @@ const StartingPage = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
-    const [addedUser, setaddedUser] = useState('')
     const [reservations, setReservations] = useState([])
     const [cancelReservationID, setCancelReservationID] = useState('')
     const [reservationPage, setReservationPage] = useState(false)
@@ -60,8 +59,6 @@ const StartingPage = () => {
                         setPassword={setPassword}
                         repeatPassword={repeatPassword}
                         setRepeatPassword={setRepeatPassword}
-                        addedUser={addedUser}
-                        setaddedUser={setaddedUser}
                     />
                 } />
                 <Route path='/Homepage' element={
