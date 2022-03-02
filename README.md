@@ -7,9 +7,9 @@
 - npm install react-datetime-picker --save
 
 - npm i --save react-select
-- 
+ 
 - npm i react-router
-- 
+ 
 - npm i react-router-dom
 
 <br />
