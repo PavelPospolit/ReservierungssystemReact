@@ -17,11 +17,6 @@ function HomePage({ reservationPage, loggedInEmployee, loggedInEmployeeID, reser
     const navigate = useNavigate()
 
     useEffect(() => {
-
-        console.log(localStorage.getItem("email"));
-    }, [])
-
-    useEffect(() => {
         fetch('/reservations')
             .then(res => { return res.json() })
             .then(data => setReservations(data.recordset))
@@ -38,7 +33,7 @@ function HomePage({ reservationPage, loggedInEmployee, loggedInEmployeeID, reser
         } if (loggedInEmployeeID === '' && localStorage.getItem("employeeID") === null) {
             navigate('/')
         }
-    }, [loggedInEmployee, loggedInEmployeeID, setLoggedInEmployee, setLoggedInEmployeeID]);
+    }, [loggedInEmployee, loggedInEmployeeID, setLoggedInEmployee, setLoggedInEmployeeID, navigate]);
 
     const options = [
         { value: 'Everything', label: 'Everything' },

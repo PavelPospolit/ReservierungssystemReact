@@ -30,8 +30,7 @@ const LogInPage = ({ email, setEmail, password, setPassword, setLoggedInEmployee
                             localStorage.setItem("email", email)
                             navigate('/Homepage')
                         }
-                    }
-                    )
+                    })
             }
             catch (err) {
                 console.log(err);
@@ -44,7 +43,7 @@ const LogInPage = ({ email, setEmail, password, setPassword, setLoggedInEmployee
             <header id="header">
                 <h1>LOG IN</h1>
             </header>
-            <form onSubmit={() => { handleLogIn() }} className='form-control'>
+            <form className='form-control'>
                 <div>
                     <input
                         type="text"
@@ -58,13 +57,18 @@ const LogInPage = ({ email, setEmail, password, setPassword, setLoggedInEmployee
                         id='password'
                         className='password'
                         placeholder='Password'
+                        onKeyPress={(event) => {
+                            if (event.key === "Enter") {
+                                handleLogIn()
+                            }
+                        }}
                         onChange={(event) => setPassword(event.target.value)}
                     />
 
                 </div>
                 <div className='buttons'>
                     <button className='login' type='button' onClick={() => handleLogIn()}>Log in</button>
-                    <button className='signup' onClick={() => { navigate('/register') }}>Sign up</button>
+                    <button className='signup' type='button' onClick={() => { navigate('/register') }}>Sign up</button>
                 </div>
             </form>
         </>

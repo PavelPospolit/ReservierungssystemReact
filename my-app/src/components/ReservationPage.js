@@ -26,7 +26,7 @@ function ReservationPage({ rooms, setRoom, loggedInEmployeeID,
         } if (loggedInEmployeeID === '' && localStorage.getItem("employeeID") === null) {
             navigate('/')
         }
-    }, [loggedInEmployee, loggedInEmployeeID]);
+    }, [loggedInEmployee, loggedInEmployeeID, navigate]);
 
     let roomlist = rooms.map((room) => {
         const liste = (

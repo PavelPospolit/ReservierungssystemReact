@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router'
 
-const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, setRepeatPassword,
-    users, setUsers }) => {
-    let doubledEmail = false
+const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, setRepeatPassword }) => {
     const [passwordError, setPasswordError] = useState()
     const [emailError, setEmailError] = useState()
     const navigate = useNavigate()
@@ -14,18 +12,7 @@ const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, 
         setEmailError('')
         setPasswordError('')
 
-        users.map(employee => {
-            if (email === employee.Emailaddress) {
-                doubledEmail = true
-            }
-            return doubledEmail
-        })
-
-        if (doubledEmail) {
-            setEmailError('email already in use!')
-        }
-
-        if (password === repeatPassword && !doubledEmail) {
+        if (password === repeatPassword) {
 
             (async () => {
                 try {
@@ -36,21 +23,23 @@ const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, 
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({ email: email, password: password })
+                    }).then((res) => {
+                        return res.json()
                     })
-                        .then(await fetch('/users')
-                            .then(res => { return res.json() })
-                            .then(data => setUsers(data.recordset)))
-                        .then(alert('Registration successful!'))
+                        .then(data => {
+                            if (data.exist) {
+                                setEmailError('Email already registered! Try logging in!')
+                            }
+                            else alert('Registration successful!')
+                            setEmail('')
+                            setPassword('')
+                            setRepeatPassword('')
+                        })
                 }
                 catch (err) {
                     console.log(err);
                 }
             })()
-
-
-            setEmail('')
-            setPassword('')
-            setRepeatPassword('')
         }
         if (password !== repeatPassword) {
             setPasswordError('passwords do not match')
@@ -61,7 +50,7 @@ const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, 
             <header id="header">
                 <h1>REGISTER</h1>
             </header>
-            <form onSubmit={() => { handleRegister() }} className='form-control'>
+            <form className='form-control'>
                 <div className='registercontrol'>
                     <input
                         type="text"
@@ -93,7 +82,11 @@ const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, 
                         placeholder='Repeat Password'
                         value={repeatPassword}
                         onChange={(event) => setRepeatPassword(event.target.value)}
-                        onSubmit={() => { handleRegister() }}
+                        onKeyPress={(event) => {
+                            if (event.key === "Enter") {
+                                handleRegister()
+                            }
+                        }}
                     />
                     <div className='buttons'>
                         <button
@@ -104,7 +97,7 @@ const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, 
                         >
                             Register
                         </button>
-                        <button className='signup' onClick={() => { navigate('/') }}>Sign in</button>
+                        <button className='signup' type='button' onClick={() => { navigate('/') }}>Sign in</button>
                     </div>
                 </div>
             </form>
