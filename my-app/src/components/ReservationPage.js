@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import HomePage from './HomePage'
 import DateTimePicker from 'react-datetime-picker'
 import { format } from "date-fns"
 import Select from 'react-select'
 import 'react-dropdown/style.css'
+import { useNavigate } from 'react-router'
 
-function ReservationPage({ email, reservationPage, setReservationPage,
-    employee, setEmployee, rooms, setRoom, homePage, setHomePage, loggedInEmployeeID,
+function ReservationPage({ rooms, setRoom, loggedInEmployeeID,
     startTime, setStartTime, formattedStartTime, setFormattedStartTime, endTime, setEndTime, formattedEndTime,
     setFormattedEndTime, reservations, setReservations }) {
 
     const [roomnumber, setRoomnumber] = useState('')
     const [filterOption, setFilterOption] = useState('')
     const [filter, setFilter] = useState('')
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetch('/rooms')
@@ -52,8 +52,8 @@ function ReservationPage({ email, reservationPage, setReservationPage,
         else if (filter === '') {
             return liste
         }
-    }
-    )
+    })
+
     useEffect(() => {
         setFormattedStartTime(format(startTime, 'yyyy-MM-dd kk:mm'))
         setFormattedEndTime(format(endTime, 'yyyy-MM-dd kk:mm'))
@@ -130,62 +130,52 @@ function ReservationPage({ email, reservationPage, setReservationPage,
     }
 
 
-
-    if (!homePage) {
-        return (
-            <>
-                <h1>Reservation page</h1>
-                <nav>
-                    <button className='changeview'
-                        onClick={() => {
-                            setHomePage(true)
-                            setReservationPage(false)
-                            setFilter('')
-                            setFilterOption('')
-                        }}>
-                        HomePage
-                    </button>
-                </nav>
-                <div className='filterdiv'>
-                    <Select options={options} onChange={(values) => setFilterOption(values.value)} />
-                    <input type="text" placeholder='Search for something. Select DropDown property to specify your search!' className='filterInput' onChange={(e) => { setFilter(e.target.value) }} />
-                </div>
-                <div className='datetimepickerlabels'>
-                    <label>Start:</label>
-                    <label className='endlabel'>End:</label>
-                </div>
-                <div className='datetimepickerdiv'>
-                    <DateTimePicker clearIcon={null} calendarIcon={null} className='datetimepicker' minDate={new Date()} onChange={setStartTime} value={startTime} />
-                    <DateTimePicker clearIcon={null} calendarIcon={null} className='datetimepicker' minDate={startTime} onChange={setEndTime} value={endTime} />
-                </div>
-                <div>
-                    <span>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Room number</th>
-                                    <th>Room description</th>
-                                    <th>Room properties</th>
-                                    <th>Room capacity</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {roomlist}
-                            </tbody>
-                        </table>
-                    </span>
-                    <br />
-                    <button onClick={() => { handleReservation() }} style={{ cursor: 'pointer' }} className='signup'>Reserve room!</button>
-                </div>
-            </>
-        )
-    }
-    if (homePage && !reservationPage) {
-        return (
-            <>
-                <HomePage />
-            </>)
-    }
+    return (
+        <>
+            <h1>Reservation page</h1>
+            <nav>
+                <button className='changeview'
+                    onClick={() => {
+                        setFilter('')
+                        setFilterOption('')
+                        navigate('/Homepage')
+                    }}>
+                    HomePage
+                </button>
+            </nav>
+            <div className='filterdiv'>
+                <Select options={options} onChange={(values) => setFilterOption(values.value)} />
+                <input type="text" placeholder='Search for something. Select DropDown property to specify your search!' className='filterInput' onChange={(e) => { setFilter(e.target.value) }} />
+            </div>
+            <div className='datetimepickerlabels'>
+                <label>Start:</label>
+                <label className='endlabel'>End:</label>
+            </div>
+            <div className='datetimepickerdiv'>
+                <DateTimePicker clearIcon={null} calendarIcon={null} className='datetimepicker' minDate={new Date()} onChange={setStartTime} value={startTime} />
+                <DateTimePicker clearIcon={null} calendarIcon={null} className='datetimepicker' minDate={startTime} onChange={setEndTime} value={endTime} />
+            </div>
+            <div>
+                <span>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Room number</th>
+                                <th>Room description</th>
+                                <th>Room properties</th>
+                                <th>Room capacity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {roomlist}
+                        </tbody>
+                    </table>
+                </span>
+                <br />
+                <button onClick={() => { handleReservation() }} style={{ cursor: 'pointer' }} className='signup'>Reserve room!</button>
+            </div>
+        </>
+    )
 }
 
 export default ReservationPage

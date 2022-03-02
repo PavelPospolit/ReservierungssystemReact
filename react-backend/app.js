@@ -3,11 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const db = require('./dbFiles/database')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var roomsRouter = require('./routes/rooms');
 var addUserRouter = require('./routes/addUser')
+var loginRouter = require('./routes/login')
 var reservationsRouter = require('./routes/reservations')
 var addReservationRouter = require('./routes/addReservation')
 var cancelReservationRouter = require('./routes/cancelReservation')
@@ -28,6 +30,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/rooms', roomsRouter)
 app.use('/addUser', addUserRouter)
+app.use('/login', loginRouter)
 app.use('/reservations', reservationsRouter)
 app.use('/addReservation', addReservationRouter)
 app.use('/cancelReservation', cancelReservationRouter)
@@ -47,5 +50,8 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+
 
 module.exports = app;

@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from 'react'
-import ReservationPage from './ReservationPage'
 import Select from 'react-select'
+import { useNavigate } from 'react-router'
 
-function HomePage({ email, reservationPage, setReservationPage,
-    employee, setEmployee, rooms, setRoom, loggedInEmployee, loggedInEmployeeID, reservations, setReservations,
-    cancelReservationID, setCancelReservationID }) {
-    const [homePage, setHomePage] = useState(false)
+
+function HomePage({ reservationPage, loggedInEmployee, loggedInEmployeeID, reservations, setReservations,
+    cancelReservationID, setCancelReservationID, setLoggedInEmployeeID, setLoggedInEmployee }) {
+
 
     const userNameOne = loggedInEmployee.split('@')
     const userName = userNameOne[0].split('.')
-    const [startTime, setStartTime] = useState(new Date())
-    const [formattedStartTime, setFormattedStartTime] = useState()
-    const [endTime, setEndTime] = useState(new Date())
-    const [formattedEndTime, setFormattedEndTime] = useState()
     const [emptyState, setEmptyState] = useState()
     const [filterOption, setFilterOption] = useState('')
     const [filterOptionAllRes, setFilterOptionAllRes] = useState('')
     const [filter, setFilter] = useState('')
     const [allResFilter, setAllResFilter] = useState('')
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetch('/reservations')
             .then(res => { return res.json() })
             .then(data => setReservations(data.recordset))
-    }, [emptyState, setEmptyState])
+    }, [emptyState, setEmptyState, setReservations])
 
 
+    useEffect(() => {
+        if (loggedInEmployee === '') {
+            setLoggedInEmployee(localStorage.getItem("email"))
+        } if (loggedInEmployeeID === '') {
+            setLoggedInEmployeeID(localStorage.getItem("employeeID"))
+        }
+    }, [loggedInEmployee, loggedInEmployeeID, setLoggedInEmployee, setLoggedInEmployeeID]);
 
     const options = [
         { value: 'Everything', label: 'Everything' },
@@ -34,7 +38,6 @@ function HomePage({ email, reservationPage, setReservationPage,
         { value: 'Start', label: 'Start' },
         { value: 'End', label: 'End' },
     ]
-
 
     const reservationlist = reservations.map((reservation) => {
         let liste
@@ -55,7 +58,7 @@ function HomePage({ email, reservationPage, setReservationPage,
                 (String(reservation.ReservationID).toLocaleLowerCase().includes(filter.toLocaleLowerCase())) ||
                 (String(reservation.Starting_Date).toLocaleLowerCase().includes(filter.toLocaleLowerCase())) ||
                 (String(reservation.Ending_Date).toLocaleLowerCase().includes(filter.toLocaleLowerCase()))) &&
-                (filterOption == '' || filterOption == 'Everything')) {
+                (filterOption === '' || filterOption === 'Everything')) {
                 return liste
             }
             else if ((String(reservation.ReservationID).toLocaleLowerCase().includes(filter.toLocaleLowerCase())) && filterOption === 'ID') {
@@ -75,6 +78,7 @@ function HomePage({ email, reservationPage, setReservationPage,
             }
         }
     })
+
     const reservationlistAll = reservations.map((reservation) => {
         let liste
         liste = (
@@ -89,7 +93,7 @@ function HomePage({ email, reservationPage, setReservationPage,
             (String(reservation.ReservationID).toLocaleLowerCase().includes(allResFilter.toLocaleLowerCase())) ||
             (String(reservation.Starting_Date).toLocaleLowerCase().includes(allResFilter.toLocaleLowerCase())) ||
             (String(reservation.Ending_Date).toLocaleLowerCase().includes(allResFilter.toLocaleLowerCase()))) &&
-            (filterOption == '' || filterOption == 'Everything')) {
+            (filterOptionAllRes === '' || filterOptionAllRes === 'Everything')) {
             return liste
         }
         else if ((String(reservation.ReservationID).toLocaleLowerCase().includes(allResFilter.toLocaleLowerCase())) && filterOptionAllRes === 'ID') {
@@ -151,16 +155,22 @@ function HomePage({ email, reservationPage, setReservationPage,
                 <nav>
                     <button className='changeview'
                         onClick={() => {
-                            setHomePage(false)
-                            setReservationPage(true)
                             setFilter('')
                             setFilterOption('')
                             setAllResFilter('')
                             setFilterOptionAllRes('')
+                            navigate('/Reservation')
                         }} >
                         reserve a room
                     </button>
-                    <button className='logout' onClick={() => { window.location.reload(false) }}>log out</button>
+                    <button className='logout' onClick={() => {
+                        navigate('/')
+                        setLoggedInEmployeeID('')
+                        setLoggedInEmployee('')
+                        localStorage.removeItem("email")
+                        localStorage.removeItem("employeeID")
+                        localStorage.removeItem("employeeID")
+                    }}>log out</button>
                 </nav>
 
                 <div>
@@ -212,32 +222,6 @@ function HomePage({ email, reservationPage, setReservationPage,
                     <button className='signup' onClick={() => { handleCancel() }}>cancel selected reservation</button>
                 </div>
             </>
-        )
-    }
-    if (reservationPage) {
-        return (
-            <ReservationPage
-                email={email}
-                reservationPage={reservationPage}
-                setReservationPage={setReservationPage}
-                employee={employee}
-                setEmployee={setEmployee}
-                rooms={rooms}
-                setRoom={setRoom}
-                homePage={homePage}
-                setHomePage={setHomePage}
-                startTime={startTime}
-                setStartTime={setStartTime}
-                formattedStartTime={formattedStartTime}
-                setFormattedStartTime={setFormattedStartTime}
-                endTime={endTime}
-                setEndTime={setEndTime}
-                formattedEndTime={formattedEndTime}
-                setFormattedEndTime={setFormattedEndTime}
-                loggedInEmployeeID={loggedInEmployeeID}
-                reservations={reservations}
-                setReservations={setReservations}
-            />
         )
     }
 }

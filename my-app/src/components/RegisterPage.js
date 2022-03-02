@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router'
 
-const RegisterPage = ({ setLogIn, email, setEmail, password, setPassword, repeatPassword, setRepeatPassword,
+const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, setRepeatPassword,
     users, setUsers }) => {
     let doubledEmail = false
     const [passwordError, setPasswordError] = useState()
     const [emailError, setEmailError] = useState()
+    const navigate = useNavigate()
 
 
     const handleRegister = (evt) => {
@@ -102,7 +104,7 @@ const RegisterPage = ({ setLogIn, email, setEmail, password, setPassword, repeat
                         >
                             Register
                         </button>
-                        <button className='signup' onClick={() => { setLogIn(true) }}>Sign in</button>
+                        <button className='signup' onClick={() => { navigate('/') }}>Sign in</button>
                     </div>
                 </div>
             </form>

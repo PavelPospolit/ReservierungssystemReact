@@ -11,6 +11,7 @@ body {
 	align-items: center;
 	background: rgb(224, 0 ,116 , 20%);
 	height: 100vh;
+	overflow-y: scroll;
 }
 h1{
 	text-decoration-line: underline;
