@@ -17,17 +17,26 @@ function HomePage({ reservationPage, loggedInEmployee, loggedInEmployeeID, reser
     const navigate = useNavigate()
 
     useEffect(() => {
+
+        console.log(localStorage.getItem("email"));
+    }, [])
+
+    useEffect(() => {
         fetch('/reservations')
             .then(res => { return res.json() })
             .then(data => setReservations(data.recordset))
     }, [emptyState, setEmptyState, setReservations])
-
 
     useEffect(() => {
         if (loggedInEmployee === '') {
             setLoggedInEmployee(localStorage.getItem("email"))
         } if (loggedInEmployeeID === '') {
             setLoggedInEmployeeID(localStorage.getItem("employeeID"))
+        }
+        if (loggedInEmployee === '' && localStorage.getItem("email") === null) {
+            navigate('/')
+        } if (loggedInEmployeeID === '' && localStorage.getItem("employeeID") === null) {
+            navigate('/')
         }
     }, [loggedInEmployee, loggedInEmployeeID, setLoggedInEmployee, setLoggedInEmployeeID]);
 

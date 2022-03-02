@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router'
 
 function ReservationPage({ rooms, setRoom, loggedInEmployeeID,
     startTime, setStartTime, formattedStartTime, setFormattedStartTime, endTime, setEndTime, formattedEndTime,
-    setFormattedEndTime, reservations, setReservations }) {
+    setFormattedEndTime, reservations, setReservations, loggedInEmployee }) {
 
     const [roomnumber, setRoomnumber] = useState('')
     const [filterOption, setFilterOption] = useState('')
@@ -20,6 +20,13 @@ function ReservationPage({ rooms, setRoom, loggedInEmployeeID,
             .then(data => setRoom(data.recordset))
     }, [setRoom])
 
+    useEffect(() => {
+        if (loggedInEmployee === '' && localStorage.getItem("email") === null) {
+            navigate('/')
+        } if (loggedInEmployeeID === '' && localStorage.getItem("employeeID") === null) {
+            navigate('/')
+        }
+    }, [loggedInEmployee, loggedInEmployeeID]);
 
     let roomlist = rooms.map((room) => {
         const liste = (

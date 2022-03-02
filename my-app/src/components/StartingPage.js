@@ -105,6 +105,7 @@ const StartingPage = () => {
                         setEndTime={setEndTime}
                         formattedEndTime={formattedEndTime}
                         setFormattedEndTime={setFormattedEndTime}
+                        loggedInEmployee={loggedInEmployee}
                         loggedInEmployeeID={loggedInEmployeeID}
                         reservations={reservations}
                         setReservations={setReservations}
