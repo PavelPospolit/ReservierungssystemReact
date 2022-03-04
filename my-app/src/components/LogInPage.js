@@ -69,31 +69,33 @@ const LogInPage = ({ email, setEmail, password, setPassword, setLoggedInEmployee
                 <h1>LOG IN</h1>
             </header>
             <form className='form-control'>
-                <div>
-                    <input
-                        type="text"
-                        id='email'
-                        className='emaillogin'
-                        placeholder='Email'
-                        onChange={(event) => setEmail(event.target.value)}
-                    />
-                    <input
-                        type="password"
-                        id='password'
-                        className='password'
-                        placeholder='Password'
-                        onKeyPress={(event) => {
-                            if (event.key === "Enter") {
-                                handleLogIn()
-                            }
-                        }}
-                        onChange={(event) => setPassword(event.target.value)}
-                    />
+                <div className='registercontrol'>
+                    <div>
+                        <input
+                            type="text"
+                            id='email'
+                            className='emaillogin'
+                            placeholder='Email'
+                            onChange={(event) => setEmail(event.target.value)}
+                        />
+                        <input
+                            type="password"
+                            id='password'
+                            className='password'
+                            placeholder='Password'
+                            onKeyPress={(event) => {
+                                if (event.key === "Enter") {
+                                    handleLogIn()
+                                }
+                            }}
+                            onChange={(event) => setPassword(event.target.value)}
+                        />
 
-                </div>
-                <div className='buttons'>
-                    <button className='login' type='button' onClick={() => handleLogIn()}>Log in</button>
-                    <button className='signup' type='button' onClick={() => { navigate('/register') }}>Sign up</button>
+                    </div>
+                    <div className='buttons'>
+                        <button className='login' type='button' onClick={() => handleLogIn()}>Log in</button>
+                        <button className='signup' type='button' onClick={() => { navigate('/register') }}>Sign up</button>
+                    </div>
                 </div>
             </form>
         </>

@@ -119,43 +119,34 @@ function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReser
 
     const handleCancel = () => {
 
-        fetch('/login/isUserAuth')
-            .then(res => { return res.json() })
-            .then(datas => {
-                if (datas) {
-                    if (cancelReservationID === '') {
-                        alert('Please select a reservation to cancel')
-                    }
-                    else {
-                        (async () => {
-                            try {
-                                await fetch('/cancelReservation', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Accept': 'application/json, text/plain, */*',
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({
-                                        ReservationID: cancelReservationID
-                                    })
-                                })
-                                    .then(await fetch('/reservations')
-                                        .then(res => { return res.json() })
-                                        .then(data => setReservations(data.recordset)))
-                                    .then(alert(`Reservation ${cancelReservationID} has been cacnelled successfully.`))
-                                    .then(setEmptyState({}))
-                            }
-                            catch (err) {
-                                alert(err);
-                            }
-                        })()
-                        setCancelReservationID('')
-                    }
-
-
+        if (cancelReservationID === '') {
+            alert('Please select a reservation to cancel')
+        }
+        else {
+            (async () => {
+                try {
+                    await fetch('/cancelReservation', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json, text/plain, */*',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            ReservationID: cancelReservationID
+                        })
+                    })
+                        .then(await fetch('/reservations')
+                            .then(res => { return res.json() })
+                            .then(data => setReservations(data.recordset)))
+                        .then(alert(`Reservation ${cancelReservationID} has been cacnelled successfully.`))
+                        .then(setEmptyState({}))
                 }
-            })
-
+                catch (err) {
+                    alert(err);
+                }
+            })()
+            setCancelReservationID('')
+        }
     }
 
     (() => {
@@ -195,8 +186,8 @@ function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReser
             <div>
                 <h2>All reservations:</h2>
                 <div className='filterdiv'>
-                    <Select options={options} onChange={(values) => setFilterOptionAllRes(values.value)} />
-                    <input type="text" placeholder='Search through all reservations!' className='filterInputHomePage' onChange={(e) => { setAllResFilter(e.target.value) }} />
+                    <Select options={options} onChange={(values) => setFilterOptionAllRes(values.value)} placeholder='Specify Search' />
+                    <input type="text" placeholder='Search through all reservations! Select DropDown property to specify your search!' className='filterInputHomePage' onChange={(e) => { setAllResFilter(e.target.value) }} />
                 </div>
                 <span>
                     <table>
@@ -219,8 +210,8 @@ function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReser
             <div className='reservations'>
                 <h2>Your reservations:</h2>
                 <div className='filterdiv'>
-                    <Select options={options} onChange={(values) => setFilterOption(values.value)} />
-                    <input type="text" placeholder='Search through your reservations!' className='filterInputHomePage' onChange={(e) => { setFilter(e.target.value) }} />
+                    <Select options={options} onChange={(values) => setFilterOption(values.value)} placeholder='Specify Search' />
+                    <input type="text" placeholder='Search through your reservations! Select DropDown property to specify your search!' className='filterInputHomePage' onChange={(e) => { setFilter(e.target.value) }} />
                 </div>
                 <span>
                     <table>

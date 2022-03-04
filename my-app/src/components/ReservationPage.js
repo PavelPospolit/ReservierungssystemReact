@@ -151,7 +151,7 @@ function ReservationPage({ rooms, setRoom, loggedInEmployeeID,
                 </button>
             </nav>
             <div className='filterdiv'>
-                <Select options={options} onChange={(values) => setFilterOption(values.value)} />
+                <Select options={options} onChange={(values) => setFilterOption(values.value)} placeholder='Specify Search' />
                 <input type="text" placeholder='Search for something. Select DropDown property to specify your search!' className='filterInput' onChange={(e) => { setFilter(e.target.value) }} />
             </div>
             <div className='datetimepickerlabels'>
