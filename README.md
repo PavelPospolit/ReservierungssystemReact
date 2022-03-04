@@ -12,6 +12,8 @@
  
 - npm i react-router-dom
 
+- npm i history
+
 <br />
 <br />
 
