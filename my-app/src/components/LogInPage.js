@@ -1,9 +1,26 @@
-import React from 'react'
+import { React, useEffect } from 'react'
 import { useNavigate } from 'react-router'
+import { createBrowserHistory } from 'history'
 
-const LogInPage = ({ email, setEmail, password, setPassword, setLoggedInEmployeeID, setLoggedInEmployee, }) => {
+
+const LogInPage = ({ email, setEmail, password, setPassword, setLoggedInEmployeeID, setLoggedInEmployee }) => {
     const navigate = useNavigate()
+    let history = createBrowserHistory()
 
+    useEffect(() => {
+        if (localStorage.getItem("employeeID") != null) {
+            fetch('/login/isUserAuth')
+                .then(res => { return res.json() })
+                .then(datas => {
+                    if (datas) {
+                        setLoggedInEmployeeID(localStorage.getItem("employeeID"))
+                        setLoggedInEmployee(localStorage.getItem("email"))
+                        history.replace('/Homepage')
+                        navigate('/Homepage')
+                    }
+                })
+        }
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleLogIn = () => {
         (async () => {
@@ -24,11 +41,19 @@ const LogInPage = ({ email, setEmail, password, setPassword, setLoggedInEmployee
                             alert('Wrong Email and Password combination')
                         }
                         else {
-                            setLoggedInEmployeeID(data.id)
-                            localStorage.setItem("employeeID", data.id)
-                            setLoggedInEmployee(email)
-                            localStorage.setItem("email", email)
-                            navigate('/Homepage')
+                            fetch('/login/isUserAuth')
+                                .then(res => { return res.json() })
+                                .then(datas => {
+                                    if (datas) {
+                                        setLoggedInEmployeeID(data.id)
+                                        localStorage.setItem("employeeID", data.id)
+                                        setLoggedInEmployee(email)
+                                        localStorage.setItem("email", email)
+                                        history.replace('/Homepage')
+                                        navigate('/Homepage')
+                                    }
+                                })
+
                         }
                     })
             }

@@ -30,6 +30,8 @@ const StartingPage = () => {
     }, [])
 
 
+
+
     return (
         <Router>
             <Routes>
@@ -38,6 +40,7 @@ const StartingPage = () => {
                         setLoggedInEmployeeID={setLoggedInEmployeeID}
                         loggedInEmployeeID={loggedInEmployeeID}
                         setLoggedInEmployee={setLoggedInEmployee}
+                        loggedInEmployee={loggedInEmployee}
                         email={email}
                         setEmail={setEmail}
                         password={password}
@@ -53,6 +56,7 @@ const StartingPage = () => {
                     <RegisterPage
                         loggedInEmployeeID={loggedInEmployeeID}
                         setLoggedInEmployee={setLoggedInEmployee}
+                        setLoggedInEmployeeID={setLoggedInEmployeeID}
                         email={email}
                         setEmail={setEmail}
                         password={password}

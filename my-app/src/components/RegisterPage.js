@@ -1,10 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router'
+import { createBrowserHistory } from 'history'
 
-const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, setRepeatPassword }) => {
+const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, setRepeatPassword, setLoggedInEmployee, setLoggedInEmployeeID }) => {
     const [passwordError, setPasswordError] = useState()
     const [emailError, setEmailError] = useState()
     const navigate = useNavigate()
+    let history = createBrowserHistory()
+
+    useEffect(() => {
+        if (localStorage.getItem("employeeID") != null) {
+            fetch('/login/isUserAuth')
+                .then(res => { return res.json() })
+                .then(datas => {
+                    console.log(datas)
+                    if (datas) {
+                        setLoggedInEmployeeID(localStorage.getItem("employeeID"))
+                        setLoggedInEmployee(localStorage.getItem("email"))
+                        history.replace('/Homepage')
+                        navigate('/Homepage')
+                    }
+                })
+        }
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     const handleRegister = (evt) => {

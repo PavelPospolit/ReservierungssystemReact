@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import { useNavigate } from 'react-router'
 
-
-function HomePage({ reservationPage, loggedInEmployee, loggedInEmployeeID, reservations, setReservations,
+function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReservations,
     cancelReservationID, setCancelReservationID, setLoggedInEmployeeID, setLoggedInEmployee }) {
-
 
     const userNameOne = loggedInEmployee.split('@')
     const userName = userNameOne[0].split('.')
@@ -15,6 +13,7 @@ function HomePage({ reservationPage, loggedInEmployee, loggedInEmployeeID, reser
     const [filter, setFilter] = useState('')
     const [allResFilter, setAllResFilter] = useState('')
     const navigate = useNavigate()
+    let greeting
 
     useEffect(() => {
         fetch('/reservations')
@@ -25,7 +24,8 @@ function HomePage({ reservationPage, loggedInEmployee, loggedInEmployeeID, reser
     useEffect(() => {
         if (loggedInEmployee === '') {
             setLoggedInEmployee(localStorage.getItem("email"))
-        } if (loggedInEmployeeID === '') {
+        }
+        if (loggedInEmployeeID === '') {
             setLoggedInEmployeeID(localStorage.getItem("employeeID"))
         }
         if (loggedInEmployee === '' && localStorage.getItem("email") === null) {
@@ -118,115 +118,129 @@ function HomePage({ reservationPage, loggedInEmployee, loggedInEmployeeID, reser
     })
 
     const handleCancel = () => {
-        if (cancelReservationID === '') {
-            alert('Please select a reservation to cancel')
-        }
-        else {
-            (async () => {
-                try {
-                    await fetch('/cancelReservation', {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json, text/plain, */*',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            ReservationID: cancelReservationID
-                        })
-                    })
-                        .then(await fetch('/reservations')
-                            .then(res => { return res.json() })
-                            .then(data => setReservations(data.recordset)))
-                        .then(alert(`Reservation ${cancelReservationID} has been cacnelled successfully.`))
-                        .then(setEmptyState({}))
+
+        fetch('/login/isUserAuth')
+            .then(res => { return res.json() })
+            .then(datas => {
+                if (datas) {
+                    if (cancelReservationID === '') {
+                        alert('Please select a reservation to cancel')
+                    }
+                    else {
+                        (async () => {
+                            try {
+                                await fetch('/cancelReservation', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Accept': 'application/json, text/plain, */*',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        ReservationID: cancelReservationID
+                                    })
+                                })
+                                    .then(await fetch('/reservations')
+                                        .then(res => { return res.json() })
+                                        .then(data => setReservations(data.recordset)))
+                                    .then(alert(`Reservation ${cancelReservationID} has been cacnelled successfully.`))
+                                    .then(setEmptyState({}))
+                            }
+                            catch (err) {
+                                alert(err);
+                            }
+                        })()
+                        setCancelReservationID('')
+                    }
+
+
                 }
-                catch (err) {
-                    console.log(err);
-                }
-            })()
-            setCancelReservationID('')
-        }
+            })
+
     }
 
+    (() => {
+        greeting = ''
+        for (let i = 0; i < userName.length; i++) {
+            greeting += ` ${userName[i].charAt(0).toUpperCase() + userName[i].slice(1)}`
+        }
+    })()
 
-    if (!reservationPage) {
-        return (
-            <>
-                <div className='homepageheadlinediv'>
-                    <h1>Homepage</h1>
-                    <h2>Lgged in user: {`${userName}`}</h2>
+    return (
+        <>
+            <div className='homepageheadlinediv'>
+                <h1>Homepage</h1>
+                <h2>Lgged in user: {greeting}</h2>
+            </div>
+            <nav>
+                <button className='changeview'
+                    onClick={() => {
+                        setFilter('')
+                        setFilterOption('')
+                        setAllResFilter('')
+                        setFilterOptionAllRes('')
+                        navigate('/Reservation')
+                    }} >
+                    reserve a room
+                </button>
+                <button className='logout' onClick={() => {
+                    navigate('/')
+                    setLoggedInEmployeeID('')
+                    setLoggedInEmployee('')
+                    localStorage.removeItem("email")
+                    localStorage.removeItem("employeeID")
+                    localStorage.removeItem("employeeID")
+                }}>log out</button>
+            </nav>
+
+            <div>
+                <h2>All reservations:</h2>
+                <div className='filterdiv'>
+                    <Select options={options} onChange={(values) => setFilterOptionAllRes(values.value)} />
+                    <input type="text" placeholder='Search through all reservations!' className='filterInputHomePage' onChange={(e) => { setAllResFilter(e.target.value) }} />
                 </div>
-                <nav>
-                    <button className='changeview'
-                        onClick={() => {
-                            setFilter('')
-                            setFilterOption('')
-                            setAllResFilter('')
-                            setFilterOptionAllRes('')
-                            navigate('/Reservation')
-                        }} >
-                        reserve a room
-                    </button>
-                    <button className='logout' onClick={() => {
-                        navigate('/')
-                        setLoggedInEmployeeID('')
-                        setLoggedInEmployee('')
-                        localStorage.removeItem("email")
-                        localStorage.removeItem("employeeID")
-                        localStorage.removeItem("employeeID")
-                    }}>log out</button>
-                </nav>
-
-                <div>
-                    <h2>All reservations:</h2>
-                    <div className='filterdiv'>
-                        <Select options={options} onChange={(values) => setFilterOptionAllRes(values.value)} />
-                        <input type="text" placeholder='Search through all reservations!' className='filterInputHomePage' onChange={(e) => { setAllResFilter(e.target.value) }} />
-                    </div>
-                    <span>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Reservation ID</th>
-                                    <th>Room number</th>
-                                    <th>Start</th>
-                                    <th>End</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {reservationlistAll}
-                            </tbody>
-                        </table>
-                        <br />
-                    </span>
-                </div>
-
-                <div className='reservations'>
-                    <h2>Your reservations:</h2>
-                    <div className='filterdiv'>
-                        <Select options={options} onChange={(values) => setFilterOption(values.value)} />
-                        <input type="text" placeholder='Search through your reservations!' className='filterInputHomePage' onChange={(e) => { setFilter(e.target.value) }} />
-                    </div>
-                    <span>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Reservation ID</th>
-                                    <th>Room number</th>
-                                    <th>Start</th>
-                                    <th>End</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {reservationlist}
-                            </tbody>
-                        </table>
-                    </span>
+                <span>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Reservation ID</th>
+                                <th>Room number</th>
+                                <th>Start</th>
+                                <th>End</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {reservationlistAll}
+                        </tbody>
+                    </table>
                     <br />
-                    <button className='signup' onClick={() => { handleCancel() }}>cancel selected reservation</button>
+                </span>
+            </div>
+
+            <div className='reservations'>
+                <h2>Your reservations:</h2>
+                <div className='filterdiv'>
+                    <Select options={options} onChange={(values) => setFilterOption(values.value)} />
+                    <input type="text" placeholder='Search through your reservations!' className='filterInputHomePage' onChange={(e) => { setFilter(e.target.value) }} />
                 </div>
-            </>
-        )
-    }
+                <span>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Reservation ID</th>
+                                <th>Room number</th>
+                                <th>Start</th>
+                                <th>End</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {reservationlist}
+                        </tbody>
+                    </table>
+                </span>
+                <br />
+                <button className='signup' onClick={() => { handleCancel() }}>cancel selected reservation</button>
+            </div>
+        </>
+    )
 }
 export default HomePage

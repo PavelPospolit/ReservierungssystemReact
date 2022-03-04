@@ -9,21 +9,21 @@ var router = express.Router();
 const verifyJWT = (req, res, next) => {
     const token = req.cookies["access_token"]
 
-    if (!token) res.status(400).json({ error: 'User not Authenticated!' })
+    if (!token) req.auth = false
     try {
         const validToken = jwt.verify(token, `'${process.env.ACCESS_TOKEN_SECRET}'`)
         if (validToken) {
-            req.authenticated = true
-            return next()
+            req.auth = true
+            next()
         }
     } catch (err) {
-        return res.status(400).json({ error: err })
+        return req.auth = false
     }
 }
 
 
 router.get('/isUserAuth', verifyJWT, (req, res) => {
-    res.redirect('/Homepage')
+    res.send(req.auth)
 })
 
 router.post('/', async function (req, res) {
