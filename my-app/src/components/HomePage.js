@@ -160,7 +160,7 @@ function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReser
         <>
             <div className='homepageheadlinediv'>
                 <h1>Homepage</h1>
-                <h2>Lgged in user: {greeting}</h2>
+                <h2>Logged in user: {greeting}</h2>
             </div>
             <nav>
                 <button className='changeview'
