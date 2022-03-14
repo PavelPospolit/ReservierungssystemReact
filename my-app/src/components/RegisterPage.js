@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import { createBrowserHistory } from 'history'
 
 const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, setRepeatPassword, setLoggedInEmployee, setLoggedInEmployeeID }) => {
+
     const [passwordError, setPasswordError] = useState()
     const [emailError, setEmailError] = useState()
     const navigate = useNavigate()
@@ -24,14 +25,15 @@ const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, 
         }
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+    useEffect(() => {
+        setEmail('')
+        setPassword('')
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleRegister = (evt) => {
-
         setEmailError('')
         setPasswordError('')
-
         if (password === repeatPassword) {
-
             (async () => {
                 try {
                     await fetch('/addUser', {
@@ -63,6 +65,7 @@ const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, 
             setPasswordError('passwords do not match')
         }
     }
+
     return (
         <>
             <header id="header">

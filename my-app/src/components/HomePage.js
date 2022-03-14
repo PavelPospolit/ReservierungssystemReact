@@ -118,7 +118,6 @@ function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReser
     })
 
     const handleCancel = () => {
-
         if (cancelReservationID === '') {
             alert('Please select a reservation to cancel')
         }

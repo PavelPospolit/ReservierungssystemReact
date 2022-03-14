@@ -66,16 +66,12 @@ function ReservationPage({ rooms, setRoom, loggedInEmployeeID,
         setFormattedEndTime(format(endTime, 'yyyy-MM-dd kk:mm'))
     }, [startTime, endTime, setFormattedEndTime, setFormattedStartTime])
 
-
     const options = [
         { value: 'Everything', label: 'Everything' },
         { value: 'Roomnumber', label: 'Roomnumber' },
         { value: 'Description', label: 'Description' },
         { value: 'Properties', label: 'Properties' },
     ]
-
-
-
 
     const handleReservation = () => {
 
@@ -136,7 +132,6 @@ function ReservationPage({ rooms, setRoom, loggedInEmployeeID,
         }
     }
 
-
     return (
         <>
             <h1>Reservation page</h1>
@@ -155,7 +150,7 @@ function ReservationPage({ rooms, setRoom, loggedInEmployeeID,
                 <input type="text" placeholder='Search for something. Select DropDown property to specify your search!' className='filterInput' onChange={(e) => { setFilter(e.target.value) }} />
             </div>
             <div className='datetimepickerlabels'>
-                <label>Start:</label>
+                <label className='startlabel'>Start:</label>
                 <label className='endlabel'>End:</label>
             </div>
             <div className='datetimepickerdiv'>

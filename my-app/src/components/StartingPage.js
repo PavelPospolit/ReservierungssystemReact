@@ -6,6 +6,7 @@ import HomePage from './HomePage'
 import ReservationPage from './ReservationPage'
 
 const StartingPage = () => {
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
@@ -16,21 +17,16 @@ const StartingPage = () => {
     const [loggedInEmployee, setLoggedInEmployee] = useState('')
     const [loggedInEmployeeID, setLoggedInEmployeeID] = useState('')
     const [loggedIn, setLoggedIn] = useState(false)
-
     const [startTime, setStartTime] = useState(new Date())
     const [formattedStartTime, setFormattedStartTime] = useState()
     const [endTime, setEndTime] = useState(new Date())
     const [formattedEndTime, setFormattedEndTime] = useState()
-
 
     useEffect(() => {
         fetch('/reservations')
             .then(res => { return res.json() })
             .then(data => setReservations(data.recordset))
     }, [])
-
-
-
 
     return (
         <Router>
@@ -116,4 +112,5 @@ const StartingPage = () => {
         </Router>
     )
 }
+
 export default StartingPage

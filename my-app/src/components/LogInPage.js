@@ -4,6 +4,7 @@ import { createBrowserHistory } from 'history'
 
 
 const LogInPage = ({ email, setEmail, password, setPassword, setLoggedInEmployeeID, setLoggedInEmployee }) => {
+
     const navigate = useNavigate()
     let history = createBrowserHistory()
 

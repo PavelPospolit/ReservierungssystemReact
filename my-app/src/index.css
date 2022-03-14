@@ -12,6 +12,7 @@ body {
 	height: 100vh;
 	overflow-y: scroll;
 	background-image: url(https://werbenet.telekom.de/dtag/images/Login_Backgrounds/DT_Wallpaper_Communication_02_1920x1200_rgb.jpg);
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 h1{
 	text-decoration-line: underline;
@@ -20,6 +21,7 @@ h1{
 }
 h2{
 	text-shadow: 0 0 1em white;
+
 }
 
 nav{
@@ -197,6 +199,12 @@ form{
 }
 .endlabel{
 	margin-right: 5.5rem;
+	text-shadow: 0 0 .5em white;
+	font-size: 1.5em;
+}
+.startlabel{
+	text-shadow: 0 0 .5em white;
+	font-size: 1.5em;
 }
 .css-1s2u09g-control{
 	box-shadow: 0 0 .5em hsl(231deg 64% 64%);
