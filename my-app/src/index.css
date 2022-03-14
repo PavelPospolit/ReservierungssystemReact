@@ -8,13 +8,18 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: rgb(224, 0 ,116 , 20%);
+	background: gray;
 	height: 100vh;
 	overflow-y: scroll;
+	background-image: url(https://werbenet.telekom.de/dtag/images/Login_Backgrounds/DT_Wallpaper_Communication_02_1920x1200_rgb.jpg);
 }
 h1{
 	text-decoration-line: underline;
 	font-size: 3vw;
+	text-shadow: 0 0 1em white;
+}
+h2{
+	text-shadow: 0 0 1em white;
 }
 
 nav{
@@ -22,15 +27,32 @@ nav{
 	display: flex;
 	justify-content: space-between;
 }
-table, td, th {
-	border: 1px solid black;
+
+td, tr, th{
+	border-top: 1px  solid black;
+	border-bottom: 1px  solid black;
+	border-right: 1px solid black;
 }
+tr, th:last-child, td:last-child{
+	border-right: 0;
+}
+table, th, tr:first-child {
+	border-top: 0;
+}
+th{
+	border-bottom: 0;
+}
+table, td, tr:last-child {
+	border-bottom: 0;
+}
+
 table {
 	border-collapse: collapse;
 	text-align: center;
-	background-color: rgb(255,255,255, 60%);
+	background-color: rgb(255,255,255, 65%);
 	width: 75vw;
 	font-size: 1vw;
+	border-radius: 10px;
 }
 td, th, tr{
 	padding-left: 5vw;
@@ -59,7 +81,7 @@ form{
 }
 .email {
 	background: hsl(0deg 0% 100%);
-	box-shadow: 0 0 2em hsl(231deg 62% 94%);
+	box-shadow: 0 0 1em hsl(231deg 64% 64%);
 	padding: 1em;
 	display: flex;
 	flex-direction: column;
@@ -69,10 +91,11 @@ form{
 	width: 10vw;
 	height: 1vw;
 	font-size: .75vw;
+	border: none;
 }
 .emaillogin {
 	background: hsl(0deg 0% 100%);
-	box-shadow: 0 0 2em hsl(231deg 62% 94%);
+	box-shadow: 0 0 1em hsl(231deg 64% 64%);
 	padding: 1em;
 	display: flex;
 	flex-direction: column;
@@ -83,7 +106,7 @@ form{
 	width: 10vw;
 	height: 1vw;
 	font-size: .75vw;
-
+	border: none;
 }
 .registercontrol{
 	display: flex;
@@ -93,7 +116,7 @@ form{
 }
 .password {
 	background: hsl(0deg 0% 100%);
-	box-shadow: 0 0 2em hsl(231deg 62% 94%);
+	box-shadow: 0 0 .5em hsl(231deg 64% 64%);
 	padding: 1em;
 	display: flex;
 	flex-direction: column;
@@ -103,11 +126,12 @@ form{
 	width: 10vw;
 	height: 1vw;
 	font-size: .75vw;
-
+	border: none;
 }
 .login {
 	padding: 1em;
-	background: rgb(224,0,116);
+	background: rgb(0, 102, 51);
+	box-shadow: 0 0 .5em rgb(0, 102, 51, 30%);
 	color: white;
 	border: none;
 	border-radius: 15px;
@@ -116,8 +140,9 @@ form{
 }
 .signup {
 	padding: 1em;
-	background: violet;
+	background: rgb(26, 198, 255);
 	color: hsl(0,0,100);
+	box-shadow: 0 0 .5em rgb(26, 198, 255, 30%);
 	border: none;
 	border-radius: 15px;
 	font-weight: 600;
@@ -132,7 +157,8 @@ form{
 }
 .changeview{
     padding: 1em;
-	background: rgb(224,0,116);
+	background: rgb(0, 102, 51);
+	box-shadow: 0 0 .5em rgb(0, 102, 51, 30%);
 	color: white;
 	border: none;
 	border-radius: 5px 20px 0 0;
@@ -142,6 +168,7 @@ form{
 .logout{
 	padding: 1em;
 	background: red;
+	box-shadow: 0 0 .5em rgb(225, 0, 0, .5);
 	color: white;
 	border: none;
 	border-radius: 20px 5px 0 0;
@@ -171,14 +198,16 @@ form{
 .endlabel{
 	margin-right: 5.5rem;
 }
-
+.css-1s2u09g-control{
+	box-shadow: 0 0 .5em hsl(231deg 64% 64%);
+}
 
 /**********************DATE TIME PICKER**********************/
 
 .react-datetime-picker__wrapper{
-	background-color: rgb(255, 255, 255, 60%);
-	border: solid black  1px;
-	border-radius: 10px 10px 10px 10px;
+	background-color: rgb(255, 255, 255, 65%);
+	border: none;
+	border-radius: 10px;
 }
 .react-calendar,
 .react-datetime-picker__clock,
@@ -197,18 +226,19 @@ form{
 	font-weight: bolder;
 }
 .react-calendar__tile--range{
-	background-color: rgb(224,0,116);
+	background-color: rgb(0, 102, 51);
 }
 .react-calendar__tile--now{
 	background-color: aquamarine;
 }
 .react-calendar__month-view__days__day:disabled{
-	background-color: rgb(224,0,116, 15%);
+	background-color: rgb(0, 102, 51, 15%);
 }
 .react-datetime-picker__inputGroup__input{
 	min-width: .5vw;
 	min-height: 1.2vw;
 	font-size: .9vw;
+	border: none;
 }
 
 
@@ -221,7 +251,7 @@ form{
 }
 .filterInput{
 	background: hsl(0deg 0% 100%);
-	box-shadow: 0 0 2em hsl(231deg 62% 94%);
+	box-shadow: 0 0 .5em hsl(231deg 64% 64%);
 	display: flex;
 	flex-direction: column;
 	border-radius: 5px;
@@ -229,10 +259,11 @@ form{
 	height: 2rem;
 	margin-left: 1vw;
 	width: 63.5vw;
+	border: none;
 }
 .filterInputHomePage{
 	background: hsl(0deg 0% 100%);
-	box-shadow: 0 0 2em hsl(231deg 62% 94%);
+	box-shadow: 0 0 .5em hsl(231deg 64% 64%);
 	display: flex;
 	flex-direction: column;
 	border-radius: 5px;
@@ -240,6 +271,7 @@ form{
 	height: 2rem;
 	margin-left: 1vw;
 	width: 63.5vw;
+	border: none;
 }
 /*********************DROPDOWN MENU************************/
 
