@@ -30,5 +30,8 @@
 <br />
 
 ## to start:
-1. **node bin/www** in react-backend (cd .\react-backend\) to start backend
-2. **npm start**  in my-app (cd .\my-app\) to react webapp
+
+1. StartQuery.sql ausfuehren!
+2. in react-backend/dbFiles/dbConfig die richtigen Datenbankeinstellungen (Server, user, password, instancename, evtl Port)
+3. **node bin/www** in react-backend (cd .\react-backend\) to start backend
+4. **npm start**  in my-app (cd .\my-app\) to react webapp
