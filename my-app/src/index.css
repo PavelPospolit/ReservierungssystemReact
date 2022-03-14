@@ -9,7 +9,7 @@ body {
 	justify-content: center;
 	align-items: center;
 	background: gray;
-	height: 100vh;
+	height: 100%;
 	overflow-y: scroll;
 	background-image: url(https://werbenet.telekom.de/dtag/images/Login_Backgrounds/DT_Wallpaper_Communication_02_1920x1200_rgb.jpg);
 	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -23,13 +23,11 @@ h2{
 	text-shadow: 0 0 1em white;
 
 }
-
 nav{
     border-bottom: 2px solid black;
 	display: flex;
 	justify-content: space-between;
 }
-
 td, tr, th{
 	border-top: 1px  solid black;
 	border-bottom: 1px  solid black;
@@ -62,6 +60,9 @@ td, th, tr{
 }
 form{
 	vertical-align: center;
+}
+button{
+	font-size: .85em;
 }
 .homepageheadlinediv{
 	display: flex;
@@ -251,6 +252,7 @@ form{
 
 
 /************************************FILTER*********************************************************/
+
 .filterdiv{
 	display: flex;
 	margin-top: 1rem;
@@ -281,6 +283,7 @@ form{
 	width: 63.5vw;
 	border: none;
 }
+
 /*********************DROPDOWN MENU************************/
 
 .css-1s2u09g-control,
@@ -289,4 +292,15 @@ form{
 }
 .css-tj5bde-Svg{
 	cursor: pointer;
+}
+
+/*********************media screen size************************/
+@media screen and (min-aspect-ratio: 16/9){ /* Specific to this particular image */
+	body{
+		background-repeat: no-repeat;
+		-webkit-background-size: cover;
+  		-moz-background-size: cover;
+  		-o-background-size: cover;
+  		background-size: cover; 
+	}
 }

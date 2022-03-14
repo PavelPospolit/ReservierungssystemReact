@@ -228,7 +228,7 @@ function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReser
                     </table>
                 </span>
                 <br />
-                <button className='signup' onClick={() => { handleCancel() }}>cancel selected reservation</button>
+                <button className='signup' onClick={() => { handleCancel() }}>Cancel reservation!</button>
             </div>
         </>
     )
