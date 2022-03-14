@@ -1,6 +1,6 @@
-CREATE DATABASE ReservierungssystemOne
+CREATE DATABASE Reservierungssystem
 
-USE [ReservierungssystemOne]
+USE [Reservierungssystem]
 GO
 
 /****** Object:  Table [dbo].[Employees]    Script Date: 14.03.2022 09:10:53 ******/
