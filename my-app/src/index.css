@@ -234,12 +234,12 @@ button {
 	cursor: pointer;
 }
 
-.selected {
-	background-color: rgb(0, 209, 224);
-}
-
 .hovered {
 	background-color: rgb(0, 209, 224, .2);
+}
+
+.selected {
+	background-color: rgb(0, 209, 224);
 }
 
 .datetimepickerdiv {

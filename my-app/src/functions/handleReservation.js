@@ -1,3 +1,4 @@
+import format from "date-fns/format"
 export default function handleReservation(reservations, roomnumber, formattedStartTime, formattedEndTime, endTime, startTime, loggedInEmployeeID, setReservations, setRoomnumber) {
 
     let startCheck = true
@@ -5,7 +6,7 @@ export default function handleReservation(reservations, roomnumber, formattedSta
     let timeCheck = true
 
     if (roomnumber === '') {
-        alert('please select a room!')
+        alert('Please select a room!')
     }
     else {
         reservations.map(reservation => {
@@ -27,13 +28,13 @@ export default function handleReservation(reservations, roomnumber, formattedSta
             return (endCheck, startCheck, timeCheck)
         })
         if (!endCheck) {
-            alert(`Room ${roomnumber} is not free on ${formattedEndTime}! Check availability in the Homepage tab.`)
+            alert(`Room ${roomnumber} is not free on ${format(new Date(formattedEndTime), 'dd.MM.yy, kk:mm')}! Check availability in the Homepage tab.`)
         }
         else if (!startCheck) {
-            alert(`Room ${roomnumber} is not free on ${formattedStartTime}! Check availability in the Homepage tab.`)
+            alert(`Room ${roomnumber} is not free on ${format(new Date(formattedStartTime), 'dd.MM.yy, kk:mm')}! Check availability in the Homepage tab.`)
         }
         else if (!timeCheck) {
-            alert('Ending time cant be earlier than or identical to starting time')
+            alert('Ending time cannot be earlier than or identical to starting time')
         }
         else if (startCheck && endCheck && timeCheck) {
             (async () => {
@@ -52,7 +53,7 @@ export default function handleReservation(reservations, roomnumber, formattedSta
                         .then(await fetch('/reservations')
                             .then(res => { return res.json() })
                             .then(data => setReservations(data.recordset)))
-                        .then(alert(`Reservation of Room ${roomnumber} has been reserved successfully from ${formattedStartTime} untill ${formattedEndTime}.`))
+                        .then(alert(`Room ${roomnumber} has been reserved successfully from ${format(new Date(formattedStartTime), 'dd.MM.yy, kk:mm')} untill ${format(new Date(formattedEndTime), 'dd.MM.yy, kk:mm')}.`))
 
                 }
                 catch (err) {
@@ -61,7 +62,7 @@ export default function handleReservation(reservations, roomnumber, formattedSta
             })()
         }
         (() => {
-            let allElements = document.getElementsByClassName('hovered'); for (let i = 0; i < allElements.length; i++) { allElements[i].classList.remove('hovered'); }
+            let allElements_hovered = document.getElementsByClassName('hovered'); for (let i = 0; i < allElements_hovered.length; i++) { allElements_hovered[i].classList.remove('hovered'); }
             let allElements_selected = document.getElementsByClassName('selected'); for (let i = 0; i < allElements_selected.length; i++) { allElements_selected[i].classList.remove('selected'); }
         })()
         setRoomnumber('')
