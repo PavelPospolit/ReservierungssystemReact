@@ -14,6 +14,8 @@
 
 - npm i history
 
+- npm i xlsx
+
 <br />
 <br />
 
