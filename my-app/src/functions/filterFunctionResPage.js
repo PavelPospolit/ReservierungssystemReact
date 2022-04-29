@@ -1,6 +1,7 @@
 export default function filterFunctionResPage(filterOption, resFilter, liste, setRoomnumber) {
 
     const filteredList = liste.map((room) => {
+
         const liste = (
             <tr key={room.Roomnumber} id={room.Roomnumber}
                 onClick={() => { setRoomnumber(room.Roomnumber); let allElements = document.getElementsByClassName('selected'); for (let i = 0; i < allElements.length; i++) { allElements[i].classList.remove('selected'); }; document.getElementById(`${room.Roomnumber}`).classList.add('selected') }}
@@ -13,6 +14,7 @@ export default function filterFunctionResPage(filterOption, resFilter, liste, se
                 <td>{room.Roomcapacity}</td>
             </tr>
         )
+
         if (((room.Roomspecials.toLocaleLowerCase().includes(resFilter.toLocaleLowerCase()) ||
             room.Roomdescritpion.toLocaleLowerCase().includes(resFilter.toLocaleLowerCase()) ||
             String(room.Roomnumber).toLocaleLowerCase().includes(resFilter.toLocaleLowerCase()))) &&

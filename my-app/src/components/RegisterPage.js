@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { createBrowserHistory } from 'history'
+import handleRegister from '../functions/handleRegister'
 
 const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, setRepeatPassword, setLoggedInEmployee, setLoggedInEmployeeID }) => {
 
@@ -29,42 +30,6 @@ const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, 
         setEmail('')
         setPassword('')
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-    const handleRegister = (evt) => {
-        setEmailError('')
-        setPasswordError('')
-        if (password === repeatPassword) {
-            (async () => {
-                try {
-                    await fetch('/addUser', {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json, text/plain, */*',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ email: email, password: password })
-                    }).then((res) => {
-                        return res.json()
-                    })
-                        .then(data => {
-                            if (data.exist) {
-                                setEmailError('Email already registered! Try logging in!')
-                            }
-                            else alert('Registration successful!')
-                            setEmail('')
-                            setPassword('')
-                            setRepeatPassword('')
-                        })
-                }
-                catch (err) {
-                    console.log(err);
-                }
-            })()
-        }
-        if (password !== repeatPassword) {
-            setPasswordError('passwords do not match')
-        }
-    }
 
     return (
         <>
@@ -113,7 +78,7 @@ const RegisterPage = ({ email, setEmail, password, setPassword, repeatPassword, 
                         <button
                             type="button"
                             className='login'
-                            onClick={() => { handleRegister() }}
+                            onClick={() => { handleRegister(email, password, repeatPassword, setEmailError, setPasswordError, setEmail, setPassword, setRepeatPassword) }}
                             value="Submit"
                         >
                             Register

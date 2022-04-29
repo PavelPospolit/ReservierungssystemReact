@@ -3,6 +3,7 @@ import { format } from "date-fns"
 export default function filterFunction(filterOption, resFilter, liste, setCancelReservationID, loggedInEmployeeID) {
 
     const fitleredList = liste.map((reservation) => {
+
         let liste
 
         if (reservation.EmployeeID.toString() === loggedInEmployeeID.toString()) {

@@ -42,8 +42,6 @@ function ReservationPage({ rooms, setRoom, loggedInEmployeeID,
         { value: 'Properties', label: 'Properties' },
     ]
 
-
-
     return (
         <>
             <h1>Reservation page</h1>

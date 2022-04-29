@@ -2,6 +2,7 @@ import { format } from "date-fns"
 export default function filterFunctionAllRes(filterOption, resFilter, liste) {
 
     const fitleredList = liste.map((reservation) => {
+
         let liste
         liste = (
             <tr key={reservation.ReservationID}>
@@ -11,7 +12,6 @@ export default function filterFunctionAllRes(filterOption, resFilter, liste) {
                 <td>{format(new Date(reservation.Ending_Date), 'dd.MM.yy, kk:mm') + ' Uhr'}</td>
             </tr>
         )
-
 
         if (((String(reservation.Roomnumber).toLocaleLowerCase().includes(resFilter.toLocaleLowerCase())) ||
             (String(reservation.ReservationID).toLocaleLowerCase().includes(resFilter.toLocaleLowerCase())) ||
