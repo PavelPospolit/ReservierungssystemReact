@@ -44,4 +44,5 @@ export default function filterFunction(filterOption, resFilter, liste, setCancel
         }
     })
     return (fitleredList)
+
 }
