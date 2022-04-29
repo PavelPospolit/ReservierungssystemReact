@@ -28,6 +28,10 @@
 
 - npm i bcryptjs
 
+- npm i mssql
+
+- npm i jsonwebtoken
+
 <br />
 <br />
 
