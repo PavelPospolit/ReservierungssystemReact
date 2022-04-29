@@ -21,10 +21,10 @@ export default function handleReservation(reservations, roomnumber, formattedSta
                     fetchedEndDate.getTime() >= startTime.getTime())) {
                 startCheck = false
             }
-            if (endTime.getTime() <= startTime.getTime()) {
+            if (endTime.getTime() <= startTime.getTime() || endTime.getTime() == startTime.getTime() || endTime.getTime() <= new Date().getTime()) {
                 timeCheck = false
             }
-            return (endCheck, startCheck)
+            return (endCheck, startCheck, timeCheck)
         })
         if (!endCheck) {
             alert(`Room ${roomnumber} is not free on ${formattedEndTime}! Check availability in the Homepage tab.`)
