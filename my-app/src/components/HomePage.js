@@ -70,7 +70,7 @@ function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReser
                         setFilterOptionAllRes('')
                         navigate('/Reservation')
                     }} >
-                    reserve a room
+                    Reserve a room
                 </button>
                 <button className='logout' onClick={() => {
                     navigate('/')

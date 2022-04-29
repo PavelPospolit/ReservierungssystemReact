@@ -54,7 +54,7 @@ function ReservationPage({ rooms, setRoom, loggedInEmployeeID,
                         setFilterOption('')
                         navigate('/Homepage')
                     }}>
-                    HomePage
+                    Homepage
                 </button>
             </nav>
             <div className='filterdiv'>

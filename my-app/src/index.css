@@ -1,8 +1,9 @@
-header{
+header {
 	display: flex;
 	justify-content: center;
 	margin-bottom: 3vw;
 }
+
 body {
 	user-select: none;
 	display: flex;
@@ -14,74 +15,100 @@ body {
 	background-image: url(https://werbenet.telekom.de/dtag/images/Login_Backgrounds/DT_Wallpaper_Communication_02_1920x1200_rgb.jpg);
 	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-h1{
+
+h1 {
 	text-decoration-line: underline;
 	font-size: 3vw;
 	text-shadow: 0 0 1em white;
 }
-h2{
+
+h2 {
 	text-shadow: 0 0 1em white;
 
 }
-nav{
-    border-bottom: 2px solid black;
+
+nav {
+	border-bottom: 2px solid black;
 	display: flex;
 	justify-content: space-between;
 }
-td, tr, th{
-	border-top: 1px  solid black;
-	border-bottom: 1px  solid black;
+
+td,
+tr,
+th {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
 	border-right: 1px solid black;
 }
-tr, th:last-child, td:last-child{
+
+tr,
+th:last-child,
+td:last-child {
 	border-right: 0;
 }
-table, th, tr:first-child {
+
+table,
+th,
+tr:first-child {
 	border-top: 0;
 }
-th{
+
+th {
 	border-bottom: 0;
 }
-table, td, tr:last-child {
+
+table,
+td,
+tr:last-child {
 	border-bottom: 0;
 }
 
 table {
 	border-collapse: collapse;
 	text-align: center;
-	background-color: rgb(255,255,255, 65%);
+	background-color: rgb(255, 255, 255, 65%);
 	width: 75vw;
 	font-size: 1vw;
 	border-radius: 10px;
 }
-td, th, tr{
+
+td,
+th,
+tr {
 	padding-left: 5vw;
 	padding-right: 5vw;
 }
-form{
+
+form {
 	vertical-align: center;
 }
-button{
+
+button {
 	font-size: .85em;
 }
-.homepageheadlinediv{
+
+.homepageheadlinediv {
 	display: flex;
 	justify-content: space-between;
 	align-items: baseline;
 }
-.inputdiv{
+
+.inputdiv {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
 }
-.errorLabel{
-   display: flex;
-   justify-content: center;
-   color:red;
-   font-size: .7vw;
-   text-decoration:underline;
-   height: .8vw;
+
+.errorLabel {
+	display: flex;
+	justify-content: center;
+	color: white;
+	font-size: .7vw;
+	text-decoration: underline;
+	height: .8vw;
+	margin-bottom: .2vw;
 }
+
 .email {
 	background: hsl(0deg 0% 100%);
 	box-shadow: 0 0 1em hsl(231deg 64% 64%);
@@ -96,6 +123,7 @@ button{
 	font-size: .75vw;
 	border: none;
 }
+
 .emaillogin {
 	background: hsl(0deg 0% 100%);
 	box-shadow: 0 0 1em hsl(231deg 64% 64%);
@@ -111,12 +139,14 @@ button{
 	font-size: .75vw;
 	border: none;
 }
-.registercontrol{
+
+.registercontrol {
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
 	align-items: center;
 }
+
 .password {
 	background: hsl(0deg 0% 100%);
 	box-shadow: 0 0 .5em hsl(231deg 64% 64%);
@@ -131,6 +161,7 @@ button{
 	font-size: .75vw;
 	border: none;
 }
+
 .login {
 	padding: 1em;
 	background: rgb(0, 102, 51);
@@ -139,36 +170,40 @@ button{
 	border: none;
 	border-radius: 15px;
 	font-weight: 600;
-    cursor: pointer;
+	cursor: pointer;
 }
+
 .signup {
 	padding: 1em;
 	background: rgb(26, 198, 255);
-	color: hsl(0,0,100);
+	color: hsl(0, 0, 100);
 	box-shadow: 0 0 .5em rgb(26, 198, 255, 30%);
 	border: none;
 	border-radius: 15px;
 	font-weight: 600;
-    cursor: pointer;
+	cursor: pointer;
 }
-.buttons{
-    margin-top: .5vw;
-    gap: 2vw;
-    display: flex;
-    justify-content: space-between;
+
+.buttons {
+	margin-top: .5vw;
+	gap: 2vw;
+	display: flex;
+	justify-content: space-between;
 	width: 12vw;
 }
-.changeview{
-    padding: 1em;
+
+.changeview {
+	padding: 1em;
 	background: rgb(0, 102, 51);
 	box-shadow: 0 0 .5em rgb(0, 102, 51, 30%);
 	color: white;
 	border: none;
 	border-radius: 5px 20px 0 0;
 	font-weight: 600;
-    cursor: pointer;
+	cursor: pointer;
 }
-.logout{
+
+.logout {
 	padding: 1em;
 	background: red;
 	box-shadow: 0 0 .5em rgb(225, 0, 0, .5);
@@ -176,90 +211,108 @@ button{
 	border: none;
 	border-radius: 20px 5px 0 0;
 	font-weight: 600;
-    cursor: pointer;
+	cursor: pointer;
 }
-.selected{
-    background-color: rgb(0, 209, 224); 
+
+.selected {
+	background-color: rgb(0, 209, 224);
 }
-.hovered{
+
+.hovered {
 	background-color: rgb(0, 209, 224, .2);
 }
-.datetimepickerdiv{
-	  display: flex;
-	  justify-content: space-between;
-	  margin-bottom: .5vw;
+
+.datetimepickerdiv {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: .5vw;
 }
-.datetimepickerlabels{
-	  display: flex;
-	  justify-content: space-between;
-	  margin-bottom: 0.1vw;
+
+.datetimepickerlabels {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 0.1vw;
 }
-.reservations{
+
+.reservations {
 	border-top: 2px dotted black;
 	margin-top: 2vw;
 }
-.endlabel{
+
+.endlabel {
 	margin-right: 5.5rem;
 	text-shadow: 0 0 .5em white;
 	font-size: 1.5em;
 }
-.startlabel{
+
+.startlabel {
 	text-shadow: 0 0 .5em white;
 	font-size: 1.5em;
 }
-.css-1s2u09g-control{
+
+.css-1s2u09g-control {
 	box-shadow: 0 0 .5em hsl(231deg 64% 64%);
 }
 
 /**********************DATE TIME PICKER**********************/
 
-.react-datetime-picker__wrapper{
+.react-datetime-picker__wrapper {
 	background-color: rgb(255, 255, 255, 65%);
 	border: none;
 	border-radius: 10px;
 }
+
 .react-calendar,
 .react-datetime-picker__clock,
-.react-datetime-picker__clock--open{
-	border: solid black  1px;
+.react-datetime-picker__clock--open {
+	border: solid black 1px;
 	border-radius: 10px;
 }
-.react-calendar__tile--active, 
+
+.react-calendar__tile--active,
 .react-calendar__tile--now,
 .react-calendar__month-view__days__day,
-.react-calendar__navigation__arrow{
+.react-calendar__navigation__arrow {
 	border: none;
 	border-radius: 10px;
+	cursor: pointer;
 }
-.react-calendar__navigation__label__labelText{
+
+.react-calendar__navigation__label__labelText {
 	font-weight: bolder;
 }
-.react-calendar__tile--range{
+
+.react-calendar__tile--range {
 	background-color: rgb(0, 102, 51);
 }
-.react-calendar__tile--now{
+
+.react-calendar__tile--now {
 	background-color: aquamarine;
 }
-.react-calendar__month-view__days__day:disabled{
+
+.react-calendar__month-view__days__day:disabled {
 	background-color: rgb(0, 102, 51, 15%);
 }
-.react-datetime-picker__inputGroup__input{
+
+.react-datetime-picker__inputGroup__input {
 	min-width: .5vw;
 	min-height: 1.2vw;
 	font-size: .9vw;
 	border: none;
+	cursor: pointer;
 }
 
 
 /************************************FILTER*********************************************************/
 
-.filterdiv{
+.filterdiv {
 	display: flex;
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 	justify-content: center;
 }
-.filterInput{
+
+.filterInput {
 	background: hsl(0deg 0% 100%);
 	box-shadow: 0 0 .5em hsl(231deg 64% 64%);
 	display: flex;
@@ -271,7 +324,8 @@ button{
 	width: 63.5vw;
 	border: none;
 }
-.filterInputHomePage{
+
+.filterInputHomePage {
 	background: hsl(0deg 0% 100%);
 	box-shadow: 0 0 .5em hsl(231deg 64% 64%);
 	display: flex;
@@ -287,21 +341,24 @@ button{
 /*********************DROPDOWN MENU************************/
 
 .css-1s2u09g-control,
-.css-b62m3t-container{
+.css-b62m3t-container {
 	width: 10vw;
 }
-.css-tj5bde-Svg,  
-.css-6j8wv5-Input{
+
+.css-tj5bde-Svg,
+.css-6j8wv5-Input {
 	cursor: pointer;
 }
 
 /*********************media screen size************************/
-@media screen and (min-aspect-ratio: 16/9){ /* Specific to this particular image */
-	body{
+@media screen and (min-aspect-ratio: 16/9) {
+
+	/* Specific to this particular image */
+	body {
 		background-repeat: no-repeat;
 		-webkit-background-size: cover;
-  		-moz-background-size: cover;
-  		-o-background-size: cover;
-  		background-size: cover; 
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
 	}
 }
