@@ -22,7 +22,6 @@ export default function filterFunction(filterOption, resFilter, liste, setCancel
                     <td>{format(new Date(reservation.Ending_Date), 'dd.MM.yy, kk:mm') + ' Uhr'}</td>
                 </tr>
             )
-
         }
 
         if (((String(reservation.Roomnumber).toLocaleLowerCase().includes(resFilter.toLocaleLowerCase())) ||

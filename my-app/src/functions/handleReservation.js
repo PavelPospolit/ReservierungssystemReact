@@ -22,7 +22,7 @@ export default function handleReservation(reservations, roomnumber, formattedSta
                     fetchedEndDate.getTime() >= startTime.getTime())) {
                 startCheck = false
             }
-            if (endTime.getTime() <= startTime.getTime() || endTime.getTime() == startTime.getTime() || endTime.getTime() <= new Date().getTime()) {
+            if (endTime.getTime() <= startTime.getTime() || endTime.getTime() === startTime.getTime() || endTime.getTime() <= new Date().getTime()) {
                 timeCheck = false
             }
             return (endCheck, startCheck, timeCheck)

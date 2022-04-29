@@ -23,6 +23,11 @@ function ReservationPage({ rooms, setRoom, loggedInEmployeeID,
     }, [setRoom])
 
     useEffect(() => {
+        setStartTime(new Date())
+        setEndTime(new Date(new Date().getTime() + 30 * 60000))
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(() => {
         if (loggedInEmployee === '' && localStorage.getItem("email") === null) {
             navigate('/')
         } if (loggedInEmployeeID === '' && localStorage.getItem("employeeID") === null) {

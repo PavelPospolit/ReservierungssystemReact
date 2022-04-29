@@ -3,7 +3,7 @@ export default function handleRegister(email, password, repeatPassword, setEmail
     setEmailError('')
     setPasswordError('')
 
-    if (email == '' || password == '' || repeatPassword == '') {
+    if (email === '' || password === '' || repeatPassword === '') {
         setEmailError('Email and Password fields cannot be empty!')
         setPasswordError('Email and Password fields cannot be empty!')
     }
