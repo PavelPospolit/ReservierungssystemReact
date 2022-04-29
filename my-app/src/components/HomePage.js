@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router'
 import filterFunction from '../functions/filterFunction'
 import filterFunctionAllRes from '../functions/filterFunctionAllRes'
 import handleCancel from '../functions/handleCancel'
-import * as XLSX from "xlsx/xlsx.mjs"
+import handleExport from '../functions/export'
 
 
 function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReservations,
@@ -19,9 +19,6 @@ function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReser
     const [allResFilter, setAllResFilter] = useState('')
     const navigate = useNavigate()
     let greeting
-
-
-
 
     useEffect(() => {
         fetch('/reservations')
@@ -57,14 +54,6 @@ function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReser
             greeting += ` ${userName[i].charAt(0).toUpperCase() + userName[i].slice(1)}`
         }
     })()
-
-    const handleExport = () => {
-        var wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(reservations)
-
-        XLSX.utils.book_append_sheet(wb, ws, 'AllReservations')
-        XLSX.writeFile(wb, 'AllReservations.xlsx')
-    }
 
     return (
         <>
@@ -150,7 +139,7 @@ function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReser
                         Cancel reservation!
                     </button>
                     <button className='export'
-                        onClick={handleExport}>
+                        onClick={() => { handleExport(reservations) }}>
                     </button>
                 </nav>
             </div>

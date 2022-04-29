@@ -191,7 +191,7 @@ button {
 	background-image: url(https://img.icons8.com/small/32/export.png);
 	background-repeat: no-repeat;
 	color: hsl(0, 0, 100);
-	box-shadow: 0 0 .5em rgb(26, 198, 255, 30%);
+	box-shadow: 0 0 .5em rgba(79, 255, 26, 0.3);
 	border: none;
 	border-radius: 5px;
 	height: 30px;
