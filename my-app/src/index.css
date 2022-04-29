@@ -184,6 +184,26 @@ button {
 	cursor: pointer;
 }
 
+.export {
+	margin-top: 10px;
+	padding: 1em;
+	background: rgb(35, 194, 59);
+	background-image: url(https://img.icons8.com/small/32/export.png);
+	background-repeat: no-repeat;
+	color: hsl(0, 0, 100);
+	box-shadow: 0 0 .5em rgb(26, 198, 255, 30%);
+	border: none;
+	border-radius: 5px;
+	height: 30px;
+	width: 30px;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.secondNav {
+	border: none;
+}
+
 .buttons {
 	margin-top: .5vw;
 	gap: 2vw;

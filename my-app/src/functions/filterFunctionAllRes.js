@@ -1,3 +1,4 @@
+import { format } from "date-fns"
 export default function filterFunctionAllRes(filterOption, resFilter, liste) {
 
     const fitleredList = liste.map((reservation) => {
@@ -6,8 +7,8 @@ export default function filterFunctionAllRes(filterOption, resFilter, liste) {
             <tr key={reservation.ReservationID}>
                 <td>{reservation.ReservationID}</td>
                 <td>{reservation.Roomnumber}</td>
-                <td>{reservation.Starting_Date}</td>
-                <td>{reservation.Ending_Date}</td>
+                <td>{format(new Date(reservation.Starting_Date), 'dd.MM.yy, kk:mm') + ' Uhr'}</td>
+                <td>{format(new Date(reservation.Ending_Date), 'dd.MM.yy, kk:mm') + ' Uhr'}</td>
             </tr>
         )
 

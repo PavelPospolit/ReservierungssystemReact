@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router'
 import filterFunction from '../functions/filterFunction'
 import filterFunctionAllRes from '../functions/filterFunctionAllRes'
 import handleCancel from '../functions/handleCancel'
+import * as XLSX from "xlsx/xlsx.mjs"
+
 
 function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReservations,
     cancelReservationID, setCancelReservationID, setLoggedInEmployeeID, setLoggedInEmployee }) {
@@ -17,6 +19,7 @@ function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReser
     const [allResFilter, setAllResFilter] = useState('')
     const navigate = useNavigate()
     let greeting
+
 
 
 
@@ -55,6 +58,14 @@ function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReser
         }
     })()
 
+    const handleExport = () => {
+        var wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(reservations)
+
+        XLSX.utils.book_append_sheet(wb, ws, 'AllReservations')
+        XLSX.writeFile(wb, 'AllReservations.xlsx')
+    }
+
     return (
         <>
             <div className='homepageheadlinediv'>
@@ -79,7 +90,8 @@ function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReser
                     localStorage.removeItem("email")
                     localStorage.removeItem("employeeID")
                     localStorage.removeItem("employeeID")
-                }}>log out</button>
+                }}>Log out
+                </button>
             </nav>
 
             <div>
@@ -123,12 +135,24 @@ function HomePage({ loggedInEmployee, loggedInEmployeeID, reservations, setReser
                             </tr>
                         </thead>
                         <tbody>
-                            {filterFunction(filterOption, filter, reservations, setCancelReservationID)}
+                            {filterFunction(filterOption, filter, reservations, setCancelReservationID, loggedInEmployeeID)}
                         </tbody>
                     </table>
                 </span>
                 <br />
-                <button className='signup' onClick={() => { handleCancel(cancelReservationID, setReservations, setEmptyState, setCancelReservationID) }}>Cancel reservation!</button>
+                <nav className='secondNav'>
+                    <button
+                        className='signup'
+                        onClick={() => {
+                            handleCancel(cancelReservationID, setReservations, setEmptyState, setCancelReservationID)
+                        }}
+                    >
+                        Cancel reservation!
+                    </button>
+                    <button className='export'
+                        onClick={handleExport}>
+                    </button>
+                </nav>
             </div>
         </>
     )
