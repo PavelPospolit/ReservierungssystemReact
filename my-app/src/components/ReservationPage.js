@@ -86,7 +86,7 @@ function ReservationPage({ rooms, setRoom, loggedInEmployeeID,
                     </table>
                 </span>
                 <br />
-                <button onClick={() => { handleReservation(reservations, roomnumber, formattedStartTime, formattedEndTime, endTime, startTime, loggedInEmployeeID, setReservations) }} style={{ cursor: 'pointer' }} className='signup'>Reserve room!</button>
+                <button onClick={() => { handleReservation(reservations, roomnumber, formattedStartTime, formattedEndTime, endTime, startTime, loggedInEmployeeID, setReservations, setRoomnumber) }} style={{ cursor: 'pointer' }} className='signup'>Reserve room!</button>
             </div>
         </>
     )

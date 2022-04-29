@@ -1,7 +1,8 @@
-export default function handleReservation(reservations, roomnumber, formattedStartTime, formattedEndTime, endTime, startTime, loggedInEmployeeID, setReservations) {
+export default function handleReservation(reservations, roomnumber, formattedStartTime, formattedEndTime, endTime, startTime, loggedInEmployeeID, setReservations, setRoomnumber) {
 
     let startCheck = true
     let endCheck = true
+    let timeCheck = true
 
     if (roomnumber === '') {
         alert('please select a room!')
@@ -20,6 +21,9 @@ export default function handleReservation(reservations, roomnumber, formattedSta
                     fetchedEndDate.getTime() >= startTime.getTime())) {
                 startCheck = false
             }
+            if (endTime.getTime() <= startTime.getTime()) {
+                timeCheck = false
+            }
             return (endCheck, startCheck)
         })
         if (!endCheck) {
@@ -28,7 +32,10 @@ export default function handleReservation(reservations, roomnumber, formattedSta
         else if (!startCheck) {
             alert(`Room ${roomnumber} is not free on ${formattedStartTime}! Check availability in the Homepage tab.`)
         }
-        else if (startCheck && endCheck) {
+        else if (!timeCheck) {
+            alert('Ending time cant be earlier than or identical to starting time')
+        }
+        else if (startCheck && endCheck && timeCheck) {
             (async () => {
                 try {
                     await fetch('/addReservation', {
@@ -52,7 +59,11 @@ export default function handleReservation(reservations, roomnumber, formattedSta
                     console.log(err);
                 }
             })()
-
         }
+        (() => {
+            let allElements = document.getElementsByClassName('hovered'); for (let i = 0; i < allElements.length; i++) { allElements[i].classList.remove('hovered'); }
+            let allElements_selected = document.getElementsByClassName('selected'); for (let i = 0; i < allElements_selected.length; i++) { allElements_selected[i].classList.remove('selected'); }
+        })()
+        setRoomnumber('')
     }
 }
